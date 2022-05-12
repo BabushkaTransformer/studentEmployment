@@ -1,0 +1,22 @@
+{
+  "navbar": {
+    "vacancy": "Ваканции",
+    "resume": "Резюме",
+    "about": "О нас"
+  },
+  "common": {
+    "save": "Сохранить"
+  },
+  "form": {
+    "name": "Ваше имя",
+    "surname": "Ваша фамилия",
+    "patronymic": "Ваше отчетсво",
+    "email": "Ваш email",
+    "company": "Компания",
+    "phone": "Телефон"
+  },
+  "notification": {
+    "save": "Сохранено!",
+    "error": "Произошла ошибка!"
+  }
+}
