@@ -62,10 +62,10 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
   };
 
   const pages = [
-    { title: t("navbar.vacancy"), path: VACANCY_ROUTE_PATH },
-    { title: t("navbar.resume"), path: RESUME_ROUTE_PATH },
-    { title: t("navbar.about"), path: ABOUT_ROUTE_PATH },
-    { title: "Форум", path: "/posts" }
+    { title: t('navbar.vacancy'), path: VACANCY_ROUTE_PATH },
+    { title: t('navbar.resume'), path: RESUME_ROUTE_PATH },
+    { title: t('navbar.about'), path: ABOUT_ROUTE_PATH },
+    { title: 'Форум', path: '/posts' }
   ];
 
   return (

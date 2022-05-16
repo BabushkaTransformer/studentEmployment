@@ -1,24 +1,24 @@
-import React from 'react'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
+import React from 'react';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
-const variant = 'standard'
-const margin = 'normal'
+const variant = 'standard';
+const margin = 'normal';
 
-export const FirstStep = ({ formValues, handleChange, handleIncrease }) => {
-  const { firstName, lastName, email, gender } = formValues
+export const FirstStep = ({ formValues, handleChange, handleNext }) => {
+  const { firstName, lastName, email, phone, city, date, position } = formValues;
 
   const isError = React.useCallback(
     () =>
-      Object.keys({ firstName, lastName, email, gender }).some(
+      Object.keys({ firstName, lastName, email, phone, city, date, position }).some(
         (name) =>
           (formValues[name].required && !formValues[name].value) ||
           formValues[name].error
       ),
-    [formValues, firstName, lastName, email, gender]
-  )
+    [formValues, firstName, lastName, email, phone, city, date, position]
+  );
 
   return (
     <>
@@ -76,24 +76,64 @@ export const FirstStep = ({ formValues, handleChange, handleIncrease }) => {
             variant={variant}
             margin={margin}
             fullWidth
-            select
-            SelectProps={{
-              native: true
-            }}
-            label="Gender"
-            name="gender"
-            value={gender.value}
+            label="Телефон"
+            name="phone"
+            placeholder="Ваш телефон"
+            value={phone.value}
             onChange={handleChange}
-            error={!!gender.error}
-            helperText={gender.error}
-            required={gender.required}
-          >
-            <option value=""></option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </TextField>
+            error={!!phone.error}
+            helperText={phone.error}
+            required={phone.required}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            variant={variant}
+            margin={margin}
+            fullWidth
+            label="Город"
+            name="city"
+            placeholder="Ваш город"
+            value={city.value}
+            onChange={handleChange}
+            error={!!city.error}
+            helperText={city.error}
+            required={city.required}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            variant={variant}
+            margin={margin}
+            fullWidth
+            InputLabelProps={{
+              shrink: true
+            }}
+            label="Дата рождения"
+            name="date"
+            type="date"
+            defaultValue={date.value}
+            onChange={handleChange}
+            required={date.required}
+          />
         </Grid>
       </Grid>
+
+      <TextField
+        variant={variant}
+        margin={margin}
+        fullWidth
+        label="Желаемая должность"
+        name="position"
+        placeholder="Ваша желаемая должность"
+        value={position.value}
+        onChange={handleChange}
+        error={!!position.error}
+        helperText={position.error}
+        required={position.required}
+      />
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
@@ -101,11 +141,11 @@ export const FirstStep = ({ formValues, handleChange, handleIncrease }) => {
           sx={{ mt: 3, ml: 1 }}
           disabled={isError()}
           color="primary"
-          onClick={!isError() ? handleIncrease : () => null}
+          onClick={!isError() ? handleNext : () => null}
         >
           Next
         </Button>
       </Box>
     </>
-  )
-}
+  );
+};
