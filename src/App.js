@@ -15,7 +15,9 @@ import { Profile } from './pages/Profile';
 
 import {
   POST_CREATE_ROUTE_PATH, POST_DETAIL_ROUTE_PATH,
-  POSTS_ROUTE_PATH, RESUME_CREATE_ROUTE_PATH, RESUME_ROUTE_PATH,
+  POSTS_ROUTE_PATH, RESUME_CREATE_ROUTE_PATH,
+  RESUME_DETAIL_ROUTE_PATH,
+  RESUME_ROUTE_PATH,
   VACANCY_CREATE_ROUTE_PATH,
   VACANCY_DETAIL_ROUTE_PATH,
   VACANCY_ROUTE_PATH
@@ -25,6 +27,7 @@ import { AllPosts } from './pages/forum/AllPosts';
 import { CreatePost } from './pages/forum/CreatePost';
 import { PostDetail } from './pages/forum/PostDetail';
 import { CreateResume } from './pages/resume/CreateResume';
+import { ResumeDetail } from './pages/resume/ResumeDetail';
 
 function App() {
   const dispatch = useDispatch();
@@ -60,6 +63,7 @@ function App() {
           <Route path={POST_CREATE_ROUTE_PATH} element={<CreatePost/>}/>
 
           <Route path={RESUME_CREATE_ROUTE_PATH} element={<CreateResume/>}/>
+          <Route path={RESUME_DETAIL_ROUTE_PATH} element={<ResumeDetail/>}/>
 
           <Route path="/profile" element={<Profile/>}/>
         </Route>

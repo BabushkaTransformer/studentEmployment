@@ -24,6 +24,10 @@ export const ThirdStep = ({
     [skills.skills]
   );
 
+  const handleChange = (value) => {
+    setSkills(prev => ({ ...prev, extra: { ...prev.extra, value }}));
+  };
+
   const handleSkillChange = (event, index) => {
     const { value } = event.target;
     const a = [...skills.skills];
@@ -35,7 +39,7 @@ export const ThirdStep = ({
     a[index] = current;
     setSkills(prev => ({
       ...prev,
-        skills: a
+      skills: a
     }));
 
     const { required, validate, minLength, maxLength, helperText } = skills.skills[index];
@@ -100,6 +104,7 @@ export const ThirdStep = ({
             variant={variant}
             margin={margin}
             fullWidth
+            onChange={handleChange}
             label="Университет"
             name="university"
             placeholder="Enter your city"
@@ -127,7 +132,7 @@ export const ThirdStep = ({
                   top: '40%',
                   right: '5px',
                   cursor: 'pointer'
-              }}
+                }}
               >
                 x
               </Box>

@@ -44,11 +44,6 @@ export const CreateResume = () => {
       error: '',
       validate: 'email'
     },
-    gender: {
-      value: '',
-      error: '',
-      validate: 'select'
-    },
     date: {
       value: '',
       error: ''
@@ -59,13 +54,6 @@ export const CreateResume = () => {
       validate: 'text',
       minLength: 3,
       maxLength: 20
-    },
-    agreenemt: {
-      value: false,
-      error: '',
-      required: true,
-      validate: 'checkbox',
-      helperText: 'Please accept our terms and conditions'
     },
     phone: {
       value: '',
