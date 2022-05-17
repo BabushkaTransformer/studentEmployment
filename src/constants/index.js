@@ -10,6 +10,9 @@ export const RESUME_ROUTE_PATH = '/resume';
 export const RESUME_DETAIL_ROUTE_PATH = '/resume/:id';
 export const RESUME_CREATE_ROUTE_PATH = '/resume/create';
 
+export const EVENT_ROUTE_PATH = '/events';
+export const EVENT_DETAIL_ROUTE_PATH = '/event/:id';
+export const EVENT_CREATE_ROUTE_PATH = '/event/create';
 
 export const PROFILE_ROUTE_PATH = '/profile';
 export const ABOUT_ROUTE_PATH = '/about_us';

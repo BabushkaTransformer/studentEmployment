@@ -1,13 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
+import { useTranslation } from '../../hooks/useTranslation';
+import { getAuth } from 'firebase/auth';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import MuiAppBar from '@mui/material/AppBar';
-import { styled } from '@mui/material/styles';
 import {
   Avatar,
   Box,
-  Button, Divider, FormControl,
+  Button,
+  Divider,
+  FormControl,
   IconButton,
   ListItemIcon,
   Menu,
@@ -24,8 +28,6 @@ import {
 } from '../../constants';
 import { Login, Logout } from '@mui/icons-material';
 import { authAPI } from '../../store/services/AuthService';
-import { getAuth } from 'firebase/auth';
-import { useTranslation } from '../../hooks/useTranslation';
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth'
@@ -65,7 +67,8 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
     { title: t('navbar.vacancy'), path: VACANCY_ROUTE_PATH },
     { title: t('navbar.resume'), path: RESUME_ROUTE_PATH },
     { title: t('navbar.about'), path: ABOUT_ROUTE_PATH },
-    { title: 'Форум', path: '/posts' }
+    { title: 'Форум', path: '/posts' },
+    { title: 'Мероприятия', path: '/events' }
   ];
 
   return (

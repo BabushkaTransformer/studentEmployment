@@ -1,11 +1,19 @@
 import React from 'react';
-import { Box, Button, FormControl, MenuItem, Select, TextField } from '@mui/material';
-import { TextEditor } from '../../components/ui/TextEditor';
-import { useDarkMode } from '../../hooks/useDarkMode';
-import { vacancyAPI } from '../../store/services/VacancyService';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 import { toast } from 'react-hot-toast';
+import { useDarkMode } from '../../hooks/useDarkMode';
+
+import { serverTimestamp } from 'firebase/firestore';
+import { TextEditor } from '../../components/ui/TextEditor';
+import {
+  Box,
+  Button,
+  FormControl,
+  MenuItem,
+  Select,
+  TextField
+} from '@mui/material';
+import { vacancyAPI } from '../../store/services/VacancyService';
 
 export const CreateVacancy = () => {
   const { isDarkMode } = useDarkMode();
@@ -37,7 +45,7 @@ export const CreateVacancy = () => {
       author,
       authorId: user?.id,
       company: user?.company,
-      createdAt: moment().toDate().toLocaleDateString()
+      createdAt: serverTimestamp()
     }
     try {
       await createVacancy(data).unwrap();

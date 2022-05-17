@@ -132,7 +132,7 @@ export const CreateResume = () => {
       maxLength: 50
     }
   });
-  const [activeStep, setActiveStep] = React.useState(2);
+  const [activeStep, setActiveStep] = React.useState(0);
 
   const handleIncrease = () => setActiveStep(prev => prev + 1);
   const handleDecrease = () => setActiveStep(prev => prev - 1);

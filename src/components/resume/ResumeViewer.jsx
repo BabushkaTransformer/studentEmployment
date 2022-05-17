@@ -1,13 +1,16 @@
 import React from 'react';
 import { Box, Chip, Stack, Typography } from '@mui/material';
+import { useDarkMode } from '../../hooks/useDarkMode';
 
 const titleStyle = { fontSize: '20px', fontWeight: 'medium' };
 const boxStyle = { display: 'flex', gap: 3, flexDirection: 'column' };
 const itemStyle = { display: 'flex', justifyContent: 'space-between', width: '100%', borderBottom: 'dotted 1px' };
 
 export const ResumeViewer = ({ data, isView }) => {
+  const { isDarkMode } = useDarkMode();
+
   return (
-    <Box sx={{ bgcolor: 'white', borderRadius: '10px', p: 5 }}>
+    <Box sx={{ bgcolor: isDarkMode ? '#424242' : 'white', borderRadius: '10px', p: 5 }}>
       <Box sx={{ display: 'flex', gap: 4, flexDirection: 'column', width: '100%' }}>
         {isView || (
           <Box sx={{ fontSize: '14px' }}>

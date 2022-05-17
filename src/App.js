@@ -14,20 +14,30 @@ import { Authorization } from './pages/Authorization';
 import { Profile } from './pages/Profile';
 
 import {
-  POST_CREATE_ROUTE_PATH, POST_DETAIL_ROUTE_PATH,
-  POSTS_ROUTE_PATH, RESUME_CREATE_ROUTE_PATH,
+  EVENT_CREATE_ROUTE_PATH,
+  EVENT_DETAIL_ROUTE_PATH,
+  EVENT_ROUTE_PATH,
+  POST_CREATE_ROUTE_PATH,
+  POST_DETAIL_ROUTE_PATH,
+  POSTS_ROUTE_PATH,
+  RESUME_CREATE_ROUTE_PATH,
   RESUME_DETAIL_ROUTE_PATH,
   RESUME_ROUTE_PATH,
   VACANCY_CREATE_ROUTE_PATH,
   VACANCY_DETAIL_ROUTE_PATH,
   VACANCY_ROUTE_PATH
 } from './constants';
+
 import { authAPI } from './store/services/AuthService';
 import { AllPosts } from './pages/forum/AllPosts';
 import { CreatePost } from './pages/forum/CreatePost';
 import { PostDetail } from './pages/forum/PostDetail';
 import { CreateResume } from './pages/resume/CreateResume';
 import { ResumeDetail } from './pages/resume/ResumeDetail';
+import { ResumeList } from './pages/resume/ResumeList';
+import { Events } from './pages/event/Events';
+import { Event } from './pages/event/Event';
+import { CreateEvent } from './pages/event/CreateEvent';
 
 function App() {
   const dispatch = useDispatch();
@@ -64,6 +74,11 @@ function App() {
 
           <Route path={RESUME_CREATE_ROUTE_PATH} element={<CreateResume/>}/>
           <Route path={RESUME_DETAIL_ROUTE_PATH} element={<ResumeDetail/>}/>
+          <Route path={RESUME_ROUTE_PATH} element={<ResumeList/>}/>
+
+          <Route path={EVENT_ROUTE_PATH} element={<Events/>}/>
+          <Route path={EVENT_DETAIL_ROUTE_PATH} element={<Event/>}/>
+          <Route path={EVENT_CREATE_ROUTE_PATH} element={<CreateEvent/>}/>
 
           <Route path="/profile" element={<Profile/>}/>
         </Route>

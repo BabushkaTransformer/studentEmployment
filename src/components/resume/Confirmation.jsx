@@ -1,7 +1,11 @@
 import React from 'react';
+import { toast } from 'react-hot-toast';
+
 import Box from '@mui/material/Box';
-import { ResumeViewer } from './ResumeViewer';
 import { Button } from '@mui/material';
+import { resumeAPI } from '../../store/services/ResumeService';
+import { ResumeViewer } from './ResumeViewer';
+import { serverTimestamp } from 'firebase/firestore';
 
 export const Confirmation = ({
   skills,
@@ -13,6 +17,8 @@ export const Confirmation = ({
   const [skillsData, setSkillsData] = React.useState({});
   const [educationData, setEducationData] = React.useState({});
 
+  const [createResume] = resumeAPI.useCreateResumeMutation();
+
   React.useEffect(() => {
     const result = Object.keys(formValues).reduce((acc, el) => {
       return { ...acc, [el]: formValues[el].value }
@@ -21,13 +27,27 @@ export const Confirmation = ({
       return { ...acc, [el]: education[el].value }
     }, {});
     const result2 = skills.skills.map((el) => el.value);
-    console.log(skills)
     setData(result);
     setEducationData(result1);
     setSkillsData({ extra: skills.extra.value, skills: result2 });
 
   }, [skills, formValues, education]);
 
+  const handleCreateResume = async () => {
+    const resume = {
+      ...data,
+      education: educationData,
+      additional: skillsData,
+      createdAt: serverTimestamp()
+    };
+
+    try {
+      await createResume(resume);
+      toast.success('Создано!');
+    } catch (error) {
+      toast.error('Что то пошло не так');
+    }
+  }
 
   return (
     <div>
@@ -42,8 +62,9 @@ export const Confirmation = ({
         <Button
           variant="contained"
           color="primary"
+          onClick={handleCreateResume}
         >
-          Comfirm
+          Создать
         </Button>
       </Box>
     </div>
