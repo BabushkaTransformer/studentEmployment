@@ -14,13 +14,20 @@ export const authSlice = createSlice({
     },
     setUser: (state, action) => {
       state.user = action.payload;
-    }
+    },
+    setUserProperty: (state, action) => {
+      state.user = {
+        ...state.user,
+        ...action.payload
+      };
+    },
   },
 });
 
 export const {
   setUid,
-  setUser
+  setUser,
+  setUserProperty
 } = authSlice.actions;
 
 export default authSlice.reducer;

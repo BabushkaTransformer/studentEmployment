@@ -14,7 +14,7 @@ export const ResumeViewer = ({ data, isView }) => {
       <Box sx={{ display: 'flex', gap: 4, flexDirection: 'column', width: '100%' }}>
         {isView || (
           <Box sx={{ fontSize: '14px' }}>
-            Резюме было размещено в {data?.createdAt}
+            Резюме было размещено {data?.createdAt}
           </Box>
         )}
 

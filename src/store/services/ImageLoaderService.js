@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from '../../firebase';
 
 export const imageLoaderAPI = createApi({
@@ -7,13 +7,13 @@ export const imageLoaderAPI = createApi({
   baseQuery: fetchBaseQuery({}),
   endpoints: (build) => ({
     loadImageToServer: build.mutation({
-      queryFn: async (file) => {
+      queryFn: async ({ file, place }) => {
+        const currentRef = ref(storage, `${place}/` + file.name);
         try {
-          const response = await uploadBytes(ref(storage, 'posts'), file);
-          console.log(response)
-          return "Создано!";
+          await uploadBytes(currentRef, file);
+          const url = await getDownloadURL(currentRef);
+          return { data: url }
         } catch (error) {
-          console.log(error)
           return { error: error.code };
         }
       }

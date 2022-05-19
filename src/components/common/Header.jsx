@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { useTranslation } from '../../hooks/useTranslation';
-import { getAuth } from 'firebase/auth';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import MuiAppBar from '@mui/material/AppBar';
@@ -28,6 +27,7 @@ import {
 } from '../../constants';
 import { Login, Logout } from '@mui/icons-material';
 import { authAPI } from '../../store/services/AuthService';
+import { useSelector } from 'react-redux';
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth'
@@ -49,10 +49,10 @@ const AppBar = styled(MuiAppBar, {
 
 export const Header = ({ open, toggleDrawer, drawerWidth }) => {
   const { language, setLanguage, t } = useTranslation();
+  const { user } = useSelector(state => state.auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const menuOpen = Boolean(anchorEl);
-  const user = getAuth().currentUser;
   const [logOut] = authAPI.useSignOutMutation();
 
   const handleClick = (event) => {
@@ -121,7 +121,7 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
             aria-haspopup="true"
             aria-expanded={menuOpen ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar src={user?.avatar || ''} sx={{ width: 32, height: 32 }}/>
           </IconButton>
         </Tooltip>
 
@@ -159,12 +159,12 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          {user?.uid && (
+          {user?.id && (
             <MenuItem component={Link} to={PROFILE_ROUTE_PATH}>
-              <Avatar/> Профиль
+              <Avatar src={user?.avatar}/> Профиль
             </MenuItem>
           )}
-          {user?.uid && (
+          {user?.id && (
             <Divider/>
           )}
           <MenuItem>
@@ -180,7 +180,7 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
               </Select>
             </FormControl>
           </MenuItem>
-          {user?.uid ? (
+          {user?.id ? (
             <MenuItem onClick={logOut} sx={{ py: '10px' }}>
               <ListItemIcon>
                 <Logout fontSize="small"/>

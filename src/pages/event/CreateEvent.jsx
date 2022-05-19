@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDarkMode } from '../../hooks/useDarkMode';
-import { TextEditor } from '../../components/ui/TextEditor';
 import { Box, Button, TextField } from '@mui/material';
 import { eventAPI } from '../../store/services/EventService';
 import { toast } from 'react-hot-toast';
 import { serverTimestamp } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
-import { imageLoaderAPI } from '../../store/services/ImageLoaderService';
+import SunEditor, { buttonList } from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css'
 
 export const CreateEvent = () => {
   const { isDarkMode } = useDarkMode();
@@ -14,10 +14,7 @@ export const CreateEvent = () => {
 
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
-  const [image, setImage] = React.useState(null);
   const [createEvent] = eventAPI.useCreateEventMutation();
-
-  const [imageUpload] = imageLoaderAPI.useLoadImageToServerMutation();
 
   const handleCreateEvent = async (event) => {
     event.preventDefault();
@@ -36,17 +33,6 @@ export const CreateEvent = () => {
       toast.success('Создано!');
     } catch (error) {
       toast.error('Что то пошло не так');
-    }
-  }
-
-  const uploadImage = async (event) => {
-    if (event.target.files[0]) {
-      try {
-        const res = await imageUpload(event.target.files[0]);
-        console.log(res);
-      } catch (error) {
-        console.log(error)
-      }
     }
   }
 
@@ -71,21 +57,12 @@ export const CreateEvent = () => {
       </Box>
       <Box>
         <Box>Описание</Box>
-        <TextEditor
+        <SunEditor
+          setContents={"<p>Ваш текст</p>"}
           onChange={setDescription}
+          setOptions={{ height: '300px', buttonList: buttonList.complex}}
         />
       </Box>
-      <Button
-        variant="contained"
-        component="label"
-      >
-        Upload File
-        <input
-          type="file"
-          onChange={uploadImage}
-          hidden
-        />
-      </Button>
       <Button
         variant="contained"
         type="submit"

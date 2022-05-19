@@ -60,7 +60,7 @@ export const CommentItem = ({ id, text, user, createdAt }) => {
         <Edit fontSize="20px"/>
       </Box>
       <Grid item padding={2}>
-        <Avatar alt="Remy Sharp" src="" />
+        <Avatar alt="Remy Sharp" src={user.avatar || ""} />
       </Grid>
       <Grid justifyContent="left" pt={2} item xs zeroMinWidth>
         <h4 style={{ margin: 0, textAlign: "left" }}>{author}</h4>

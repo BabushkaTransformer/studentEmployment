@@ -9,9 +9,9 @@ import {
   addDoc
 } from 'firebase/firestore';
 import moment from 'moment';
-import 'moment/locale/ru'
+import 'moment/locale/ru';
 
-moment.locale('ru')
+moment.locale('ru');
 
 export const eventAPI = createApi({
   reducerPath: 'eventAPI',
