@@ -16,7 +16,7 @@ import { ChevronLeft, Edit, Person, DarkMode } from '@mui/icons-material';
 import { PROFILE_ROUTE_PATH, VACANCY_CREATE_ROUTE_PATH } from '../../constants';
 import { Link } from 'react-router-dom';
 import { useDarkMode } from '../../hooks/useDarkMode';
-
+asd
 const sidebarData = [
   {
     icon: Person,
