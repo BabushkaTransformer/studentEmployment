@@ -20,12 +20,12 @@ import {
   Typography
 } from '@mui/material';
 import {
-  ABOUT_ROUTE_PATH,
+  ABOUT_ROUTE_PATH, ADMIN_ROUTE_PATH,
   PROFILE_ROUTE_PATH,
   RESUME_ROUTE_PATH,
   VACANCY_ROUTE_PATH
 } from '../../constants';
-import { Login, Logout } from '@mui/icons-material';
+import { Login, Logout, TransitEnterexit } from '@mui/icons-material';
 import { authAPI } from '../../store/services/AuthService';
 import { useSelector } from 'react-redux';
 
@@ -195,6 +195,12 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
               Войти
             </MenuItem>
           )}
+          <MenuItem component={Link} to={ADMIN_ROUTE_PATH}>
+            <ListItemIcon>
+              <TransitEnterexit fontSize="small"/>
+            </ListItemIcon>
+            Админ
+          </MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>

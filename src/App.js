@@ -14,12 +14,15 @@ import { Authorization } from './pages/Authorization';
 import { Profile } from './pages/Profile';
 
 import {
+  ADMIN_ROUTE_PATH,
+  CREATE_STUDENT_ROUTE_PATH,
   EVENT_CREATE_ROUTE_PATH,
   EVENT_DETAIL_ROUTE_PATH,
   EVENT_ROUTE_PATH,
   POST_CREATE_ROUTE_PATH,
   POST_DETAIL_ROUTE_PATH,
   POSTS_ROUTE_PATH,
+  PROFILE_ROUTE_PATH,
   RESUME_CREATE_ROUTE_PATH,
   RESUME_DETAIL_ROUTE_PATH,
   RESUME_ROUTE_PATH,
@@ -38,6 +41,9 @@ import { ResumeList } from './pages/resume/ResumeList';
 import { Events } from './pages/event/Events';
 import { Event } from './pages/event/Event';
 import { CreateEvent } from './pages/event/CreateEvent';
+import { AdminLayout } from './components/AdminLayout';
+import { CreateStudent } from './pages/monitoring/CreateStudent';
+import { AdminPage } from './pages/AdminPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -80,7 +86,12 @@ function App() {
           <Route path={EVENT_DETAIL_ROUTE_PATH} element={<Event/>}/>
           <Route path={EVENT_CREATE_ROUTE_PATH} element={<CreateEvent/>}/>
 
-          <Route path="/profile" element={<Profile/>}/>
+          <Route path={PROFILE_ROUTE_PATH} element={<Profile/>}/>
+        </Route>
+
+        <Route element={<AdminLayout/>}>
+          <Route path={ADMIN_ROUTE_PATH} element={<AdminPage/>}/>
+          <Route path={CREATE_STUDENT_ROUTE_PATH} element={<CreateStudent/>}/>
         </Route>
       </Routes>
     </div>

@@ -5,13 +5,29 @@
     "about": "О нас",
     "events": "Мероприятия"
   },
+  "sidebar": {
+    "createPost": "Создать пост",
+    "createResume": "Создать резюме",
+    "createEvent": "Создать мероприятие",
+    "createVacancy": "Создать вакансию"
+  },
   "common": {
     "save": "Сохранить",
     "delete": "Удалить",
-    "load": "Загрузить"
+    "load": "Загрузить",
+    "create": "Создать",
+    "profile": "Профиль"
+  },
+  "resume": {
+    "personalInfo": "Личная информация",
+    "education": "Образование",
+    "additionalInfo": "Дополнительные сведения"
   },
   "button": {
-    "avatar": "Выбрать аватарку"
+    "avatar": "Выбрать аватарку",
+    "continue": "Продолжить",
+    "back": "Назад",
+    "addMore": "Добавить еще"
   },
   "form": {
     "name": "Ваше имя",
@@ -19,7 +35,17 @@
     "patronymic": "Ваше отчетсво",
     "email": "Ваш email",
     "company": "Компания",
-    "phone": "Телефон"
+    "phone": "Телефон",
+    "city": "Город",
+    "birthDay": "День рождения",
+    "position": "Позиция",
+    "university": "Университет",
+    "admissionDate": "Дата поступления",
+    "endingDate": "Дата окончания",
+    "degree": "Академическая степень",
+    "faculty": "Факультет",
+    "specialization": "Специализация",
+    "skill": "Навык"
   },
   "notification": {
     "save": "Сохранено!",

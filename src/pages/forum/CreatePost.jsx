@@ -1,11 +1,14 @@
 import React from 'react';
-import { Box, Button, Chip, TextField } from '@mui/material';
+
 import { TextEditor } from '../../components/ui/TextEditor';
 import { useDarkMode } from '../../hooks/useDarkMode';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
-import { forumAPI } from '../../store/services/ForumService';
 import { serverTimestamp } from 'firebase/firestore';
+import { forumAPI } from '../../store/services/ForumService';
+import { Box, Button, Chip, TextField } from '@mui/material';
+import SunEditor, { buttonList } from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css'
 
 
 const categories = [
@@ -90,14 +93,16 @@ export const CreatePost = () => {
           name="title"
           value={post.title}
           onChange={getValue}
-          sx={{ width: "50%", background: isDarkMode ? "dark" : "white" }}
+          sx={{ width: "100%", background: isDarkMode ? "dark" : "white" }}
         />
       </Box>
       <Box>
         <Box>Описание</Box>
-        <TextEditor
-          value={post.description}
+        <SunEditor
+          height="300px"
+          setContents={post?.description}
           onChange={getEditorValue}
+          setOptions={{ buttonList: buttonList.complex}}
         />
       </Box>
       <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>

@@ -1,9 +1,10 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { TextEditor } from '../ui/TextEditor';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
+import { useTranslation } from '../../hooks/useTranslation';
+import SunEditor from 'suneditor-react';
 
 const variant = 'outlined';
 const margin = 'normal';
@@ -14,6 +15,8 @@ export const ThirdStep = ({
   handlePrev,
   handleNext
 }) => {
+  const { t } = useTranslation();
+
   const isError = React.useCallback(
     () =>
       skills.skills.some(
@@ -100,14 +103,9 @@ export const ThirdStep = ({
     <div>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <TextEditor
-            variant={variant}
-            margin={margin}
-            fullWidth
+          <SunEditor
+            height="150px"
             onChange={handleChange}
-            label="Университет"
-            name="university"
-            placeholder="Enter your city"
           />
         </Grid>
         <Grid item xs={12}>
@@ -117,9 +115,9 @@ export const ThirdStep = ({
                 variant={variant}
                 margin={margin}
                 fullWidth
-                label={`Навык ${i + 1}`}
+                label={`${t('form.skill')} ${i + 1}`}
                 name="degree"
-                placeholder="Ключевые навыки"
+                placeholder={t('form.skill')}
                 value={skill.value}
                 onChange={(e) => handleSkillChange(e, i)}
                 error={!!skill.error}
@@ -141,12 +139,12 @@ export const ThirdStep = ({
         </Grid>
       </Grid>
       <Button onClick={addOne}>
-        Добавить еще
+        {t("button.addMore")}
       </Button>
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
         <Button onClick={handlePrev} sx={{ mr: 1 }}>
-          Back
+          {t('button.back')}
         </Button>
         <Button
           variant="contained"
@@ -154,7 +152,7 @@ export const ThirdStep = ({
           color="primary"
           onClick={!isError() ? handleNext : () => null}
         >
-          Next
+          {t('button.continue')}
         </Button>
       </Box>
     </div>

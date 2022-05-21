@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Avatar,
   Box,
   Card,
   CardContent,
@@ -7,22 +8,28 @@ import {
   Typography
 } from '@mui/material';
 import { useNavigate } from 'react-router';
+import { getFullName } from '../../utils';
 
 export const EventCard = (data) => {
   const navigate = useNavigate();
-  const { author, createdAt, description, id } = data;
+  const { author, createdAt, title, id } = data;
+
   return (
     <Card>
-      <CardContent sx={{ mb: 2 }}>
-        <Box sx={{ display: 'flex', gap: 3 }}>
+      <CardContent>
+        <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+          <Avatar src={author.avatar}/>
           <Typography sx={{ fontSize: 14, fontWeight: 'medium' }} color="text.primary" gutterBottom>
-            {author}
+            {getFullName(author)}
           </Typography>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {createdAt}
           </Typography>
         </Box>
         <Box>
+          <Typography variant="h5" sx={{ pt: 3, fontWeight: 'bold' }}>
+            {title}
+          </Typography>
           <CardMedia
             onClick={() => navigate(`/event/${id}`)}
             sx={{ py: 2 }}
@@ -31,13 +38,6 @@ export const EventCard = (data) => {
             image="https://leonardo.osnova.io/51398f01-8352-59c8-bdea-a0874dd7d613/-/preview/700/-/format/webp/"
           />
         </Box>
-        <Typography
-          variant="body1"
-          sx={{ maxHeight: '80px', overflow: 'hidden' }}
-          dangerouslySetInnerHTML={{
-            __html: description || ''
-          }}
-        />
       </CardContent>
     </Card>
   );

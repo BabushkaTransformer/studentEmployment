@@ -6,6 +6,7 @@ import { Button } from '@mui/material';
 import { resumeAPI } from '../../store/services/ResumeService';
 import { ResumeViewer } from './ResumeViewer';
 import { serverTimestamp } from 'firebase/firestore';
+import { useTranslation } from '../../hooks/useTranslation';
 
 export const Confirmation = ({
   skills,
@@ -13,6 +14,7 @@ export const Confirmation = ({
   education,
   handlePrev
 }) => {
+  const { t } = useTranslation();
   const [data, setData] = React.useState({});
   const [skillsData, setSkillsData] = React.useState({});
   const [educationData, setEducationData] = React.useState({});
@@ -57,14 +59,14 @@ export const Confirmation = ({
       />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
         <Button onClick={handlePrev} sx={{ mr: 1 }}>
-          Back
+          {t("button.back")}
         </Button>
         <Button
           variant="contained"
           color="primary"
           onClick={handleCreateResume}
         >
-          Создать
+          {t("common.create")}
         </Button>
       </Box>
     </div>

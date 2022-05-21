@@ -5,13 +5,29 @@
     "about": "Биз жөнүндө",
     "events": "Иш чаралар"
   },
+  "sidebar": {
+    "createPost": "Пост тузуу",
+    "createResume": "Резюме тузуу",
+    "createEvent": "Ишчара тузуу",
+    "createVacancy": "Вакансия тузуу"
+  },
   "common": {
     "save": "Сактоо",
     "delete": "Өчүрү",
-    "load": "Жүктөө"
+    "load": "Жүктөө",
+    "create": "Тузуу",
+    "profile": "Профиль"
   },
   "button": {
-    "avatar": "Сүрөттү тандоо"
+    "avatar": "Сүрөттү тандоо",
+    "continue": "Улантуу",
+    "back": "Артка",
+    "addMore": "Дагы кошуу"
+  },
+  "resume": {
+    "personalInfo": "Оздун маалымат",
+    "education": "Билим",
+    "additionalInfo": "Кошумча маалымат"
   },
   "form": {
     "name": "Ат",
@@ -19,7 +35,17 @@
     "patronymic": "Отчество",
     "email": "Email",
     "company": "Сиздин команияңыз",
-    "phone": "Сиздин номериңиз"
+    "phone": "Сиздин номериңиз",
+    "city": "Шаар",
+    "birthDay": "Туулган күнүңүз",
+    "position": "Кызмат",
+    "university": "Университет",
+    "admissionDate": "Кирген кун",
+    "endingDate": "Буткон кун",
+    "degree": "Академиялык даража",
+    "faculty": "Факультет",
+    "specialization": "Специализация",
+    "skill": "Навык"
   },
   "notification": {
     "save": "Сакталды!",

@@ -1,12 +1,14 @@
 import React from 'react';
 import { Box, Chip, Stack, Typography } from '@mui/material';
 import { useDarkMode } from '../../hooks/useDarkMode';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const titleStyle = { fontSize: '20px', fontWeight: 'medium' };
 const boxStyle = { display: 'flex', gap: 3, flexDirection: 'column' };
 const itemStyle = { display: 'flex', justifyContent: 'space-between', width: '100%', borderBottom: 'dotted 1px' };
 
 export const ResumeViewer = ({ data, isView }) => {
+  const { t } = useTranslation();
   const { isDarkMode } = useDarkMode();
 
   return (
@@ -29,23 +31,23 @@ export const ResumeViewer = ({ data, isView }) => {
 
         <Box sx={boxStyle}>
           <Box sx={titleStyle}>
-            Личная информация
+            {t("resume.personalInfo")}
           </Box>
           <Box sx={{ display: 'flex', width: '100%', flexWrap: 'wrap', gap: '20px' }}>
             <Box sx={itemStyle}>
-              <Box>Дата рождения</Box>
+              <Box>{t("form.birthDay")}</Box>
               <Box>{data?.date}</Box>
             </Box>
             <Box sx={itemStyle}>
-              <Box>Email</Box>
+              <Box>{t("form.email")}</Box>
               <Box>{data?.email}</Box>
             </Box>
             <Box sx={itemStyle}>
-              <Box>Город</Box>
+              <Box>{t("form.city")}</Box>
               <Box>{data?.city}</Box>
             </Box>
             <Box sx={itemStyle}>
-              <Box>Телефон</Box>
+              <Box>{t("form.phone")}</Box>
               <Box>{data?.phone}</Box>
             </Box>
           </Box>
@@ -53,7 +55,7 @@ export const ResumeViewer = ({ data, isView }) => {
 
         <Box sx={boxStyle}>
           <Box sx={titleStyle}>
-            Образование
+            {t("resume.education")}
           </Box>
           <Box sx={{ fontSize: '18px' }}>{data?.education?.university}</Box>
           <Box sx={{ display: 'flex', gap: 1, mt: -2, fontSize: '14px' }}>
@@ -65,7 +67,7 @@ export const ResumeViewer = ({ data, isView }) => {
 
         <Box sx={boxStyle}>
           <Box sx={titleStyle}>
-            Навыки
+            {t("form.skill")}
           </Box>
           <Stack direction="row" gap={1}>
             {data?.additional?.skills?.map(skill => (
@@ -76,7 +78,7 @@ export const ResumeViewer = ({ data, isView }) => {
 
         <Box sx={boxStyle}>
           <Box sx={titleStyle}>
-            Дополнительные сведения
+            {t("resume.additionalInfo")}
           </Box>
           <Typography
             variant="body1"
