@@ -9,12 +9,12 @@ import {
   Container
 } from '@mui/material';
 import { Header } from './common/Header';
-import { Sidebar } from './common/Sidebar';
 import { useDarkMode } from '../hooks/useDarkMode';
+import { AdminSidebar } from './common/AdminSidebar';
 
 const drawerWidth = 260;
 
-export const Layout = () => {
+export const AdminLayout = () => {
   const { isDarkMode } = useDarkMode();
   const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
@@ -40,7 +40,7 @@ export const Layout = () => {
           toggleDrawer={toggleDrawer}
           drawerWidth={drawerWidth}
         />
-        <Sidebar
+        <AdminSidebar
           open={open}
           toggleDrawer={toggleDrawer}
           drawerWidth={drawerWidth}
@@ -58,7 +58,7 @@ export const Layout = () => {
           }}
         >
           <Toolbar/>
-          <Container sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="100%" sx={{ mt: 4, mb: 4 }}>
             <Outlet/>
           </Container>
         </Box>

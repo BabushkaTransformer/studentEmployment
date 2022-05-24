@@ -19,13 +19,11 @@ export const CreateEvent = () => {
   const handleCreateEvent = async (event) => {
     event.preventDefault();
 
-    const author = `${user.lastName || ''} ${user.firstName || ''}`;
     const data = {
       title,
       description,
       createdAt: serverTimestamp(),
-      author,
-      authorId: user.id,
+      author: user,
     };
 
     try {
@@ -58,9 +56,10 @@ export const CreateEvent = () => {
       <Box>
         <Box>Описание</Box>
         <SunEditor
+          height="300px"
           setContents={"<p>Ваш текст</p>"}
           onChange={setDescription}
-          setOptions={{ height: '300px', buttonList: buttonList.complex}}
+          setOptions={{ buttonList: buttonList.complex}}
         />
       </Box>
       <Button

@@ -1,13 +1,15 @@
-import React from 'react';
+import React  from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const variant = 'standard';
 const margin = 'normal';
 
 export const FirstStep = ({ formValues, handleChange, handleNext }) => {
+  const { t } = useTranslation();
   const { firstName, lastName, email, phone, city, date, position } = formValues;
 
   const isError = React.useCallback(
@@ -28,9 +30,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
             variant={variant}
             margin={margin}
             fullWidth
-            label="First Name"
+            label={t("form.name")}
             name="firstName"
-            placeholder="Your first name"
+            placeholder={t("form.name")}
             value={firstName.value}
             onChange={handleChange}
             error={!!firstName.error}
@@ -43,9 +45,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
             variant={variant}
             margin={margin}
             fullWidth
-            label="Last Name"
+            label={t("form.surname")}
             name="lastName"
-            placeholder="Your last name"
+            placeholder={t("form.surname")}
             value={lastName.value}
             onChange={handleChange}
             error={!!lastName.error}
@@ -59,9 +61,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
             variant={variant}
             margin={margin}
             fullWidth
-            label="Email"
+            label={t("form.email")}
             name="email"
-            placeholder="Your email address"
+            placeholder={t("form.email")}
             type="email"
             value={email.value}
             onChange={handleChange}
@@ -76,9 +78,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
             variant={variant}
             margin={margin}
             fullWidth
-            label="Телефон"
+            label={t("form.phone")}
             name="phone"
-            placeholder="Ваш телефон"
+            placeholder={t("form.phone")}
             value={phone.value}
             onChange={handleChange}
             error={!!phone.error}
@@ -92,9 +94,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
             variant={variant}
             margin={margin}
             fullWidth
-            label="Город"
+            label={t("form.city")}
             name="city"
-            placeholder="Ваш город"
+            placeholder={t("form.city")}
             value={city.value}
             onChange={handleChange}
             error={!!city.error}
@@ -111,7 +113,7 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
             InputLabelProps={{
               shrink: true
             }}
-            label="Дата рождения"
+            label={t("form.birthDay")}
             name="date"
             type="date"
             defaultValue={date.value}
@@ -125,9 +127,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
         variant={variant}
         margin={margin}
         fullWidth
-        label="Желаемая должность"
+        label={t("form.position")}
         name="position"
-        placeholder="Ваша желаемая должность"
+        placeholder={t("form.position")}
         value={position.value}
         onChange={handleChange}
         error={!!position.error}
@@ -135,7 +137,7 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
         required={position.required}
       />
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
           variant="contained"
           sx={{ mt: 3, ml: 1 }}
@@ -143,7 +145,7 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
           color="primary"
           onClick={!isError() ? handleNext : () => null}
         >
-          Next
+          {t("button.continue")}
         </Button>
       </Box>
     </>

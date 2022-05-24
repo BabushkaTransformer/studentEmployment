@@ -12,13 +12,9 @@ import {
   ListItemText, Switch,
   Toolbar
 } from '@mui/material';
-import { ChevronLeft, Edit, Person, DarkMode } from '@mui/icons-material';
+import { ChevronLeft, Edit, DarkMode } from '@mui/icons-material';
 import {
-  EVENT_CREATE_ROUTE_PATH,
-  POST_CREATE_ROUTE_PATH,
-  PROFILE_ROUTE_PATH,
-  RESUME_CREATE_ROUTE_PATH,
-  VACANCY_CREATE_ROUTE_PATH
+  CREATE_STUDENT_ROUTE_PATH
 } from '../../constants';
 import { Link } from 'react-router-dom';
 import { useDarkMode } from '../../hooks/useDarkMode';
@@ -50,35 +46,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   })
 );
 
-export const Sidebar = ({ open, toggleDrawer, drawerWidth }) => {
+export const AdminSidebar = ({ open, toggleDrawer, drawerWidth }) => {
   const { t } = useTranslation();
   const { isDarkMode, toggle } = useDarkMode();
 
   const sidebarData = [
     {
-      icon: Person,
-      title: t("common.profile"),
-      path: PROFILE_ROUTE_PATH
-    },
-    {
       icon: Edit,
-      title: t("sidebar.createVacancy"),
-      path: VACANCY_CREATE_ROUTE_PATH
-    },
-    {
-      icon: Edit,
-      title: t("sidebar.createResume"),
-      path: RESUME_CREATE_ROUTE_PATH
-    },
-    {
-      icon: Edit,
-      title: t("sidebar.createPost"),
-      path: POST_CREATE_ROUTE_PATH
-    },
-    {
-      icon: Edit,
-      title: t("sidebar.createEvent"),
-      path: EVENT_CREATE_ROUTE_PATH
+      title: 'Создать пользователя',
+      path: CREATE_STUDENT_ROUTE_PATH
     }
   ];
 
@@ -104,10 +80,10 @@ export const Sidebar = ({ open, toggleDrawer, drawerWidth }) => {
       <List
         component="nav"
         sx={{
-          display: "flex",
-          height: "100%",
-          flexDirection: "column",
-          justifyContent: "space-between"
+          display: 'flex',
+          height: '100%',
+          flexDirection: 'column',
+          justifyContent: 'space-between'
         }}
       >
         <Box>
@@ -120,23 +96,23 @@ export const Sidebar = ({ open, toggleDrawer, drawerWidth }) => {
               <ListItemIcon>
                 <el.icon/>
               </ListItemIcon>
-              <ListItemText primary={el.title} />
+              <ListItemText primary={el.title}/>
             </ListItemButton>
           ))}
         </Box>
         <ListItem
           onClick={toggle}
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: 'pointer' }}
         >
           <ListItemIcon>
-            <DarkMode />
+            <DarkMode/>
           </ListItemIcon>
-          <ListItemText primary="Темная тема" />
+          <ListItemText primary="Темная тема"/>
           <Switch
             edge="end"
             checked={isDarkMode}
             inputProps={{
-              'aria-labelledby': 'switch-list-label-wifi',
+              'aria-labelledby': 'switch-list-label-wifi'
             }}
           />
         </ListItem>

@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const variant = 'standard';
 const margin = 'normal';
@@ -13,6 +14,7 @@ export const SecondStep = ({
   handleNext,
   handlePrev
 }) => {
+  const { t } = useTranslation();
 
   const isError = React.useCallback(
     () =>
@@ -111,9 +113,9 @@ export const SecondStep = ({
             variant={variant}
             margin={margin}
             fullWidth
-            label="Университет"
+            label={t("form.university")}
             name="university"
-            placeholder="Enter your city"
+            placeholder={t("form.university")}
             value={education.university.value}
             onChange={handleChange}
             error={!!education.university.error}
@@ -128,7 +130,7 @@ export const SecondStep = ({
             InputLabelProps={{
               shrink: true
             }}
-            label="Год поступления"
+            label={t("form.admissionDate")}
             name="admissionDate"
             type="date"
             defaultValue={education.admissionDate.value}
@@ -144,7 +146,7 @@ export const SecondStep = ({
             InputLabelProps={{
               shrink: true
             }}
-            label="Год окончания"
+            label={t("form.endingDate")}
             name="endingDate"
             type="date"
             defaultValue={education.endingDate.value}
@@ -157,9 +159,9 @@ export const SecondStep = ({
             variant={variant}
             margin={margin}
             fullWidth
-            label="Академическая степень"
+            label={t("form.degree")}
             name="degree"
-            placeholder="Академическая степень"
+            placeholder={t("form.degree")}
             value={education.degree.value}
             onChange={handleChange}
             error={!!education.degree.error}
@@ -171,9 +173,9 @@ export const SecondStep = ({
             variant={variant}
             margin={margin}
             fullWidth
-            label="Факультет"
+            label={t("form.faculty")}
             name="faculty"
-            placeholder="Ваш факультет"
+            placeholder={t("form.faculty")}
             value={education.faculty.value}
             onChange={handleChange}
             error={!!education.faculty.error}
@@ -185,9 +187,9 @@ export const SecondStep = ({
             variant={variant}
             margin={margin}
             fullWidth
-            label="Специализация"
+            label={t("form.speciality")}
             name="speciality"
-            placeholder="Ваша специализация"
+            placeholder={t("form.speciality")}
             value={education.speciality.value}
             onChange={handleChange}
             error={!!education.speciality.error}
@@ -198,7 +200,7 @@ export const SecondStep = ({
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
         <Button onClick={handlePrev} sx={{ mr: 1 }}>
-          Back
+          {t("button.back")}
         </Button>
         <Button
           variant="contained"
@@ -206,7 +208,7 @@ export const SecondStep = ({
           color="primary"
           onClick={!isError() ? handleNext : () => null}
         >
-          Next
+          {t("button.continue")}
         </Button>
       </Box>
     </>

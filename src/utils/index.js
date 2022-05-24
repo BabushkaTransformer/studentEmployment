@@ -7,3 +7,11 @@ export const withoutEmptyProperties = (obj) => {
   }
   return newObj;
 };
+
+export const getFullName = (user) => {
+  if (!user && !user?.name) {
+    return '-';
+  }
+
+  return `${user?.lastName || ''} ${user?.firstName}`;
+}

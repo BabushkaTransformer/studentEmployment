@@ -6,12 +6,12 @@ import { Delete, Edit } from '@mui/icons-material';
 import { forumAPI } from '../../store/services/ForumService';
 import { toast } from 'react-hot-toast';
 import IconButton from '@mui/material/IconButton';
+import { getFullName } from '../../utils';
 
 export const CommentItem = ({ id, text, user, createdAt }) => {
   const { isDarkMode } = useDarkMode();
   const [isEdit, setIsEdit] = React.useState(false);
   const [comment, setComment] = React.useState(text || '');
-  const author = `${user.lastName || ''} ${user.firstName || ''}`;
 
   const [updateComment, { isLoading: updateLoading }] = forumAPI.useUpdateCommentMutation();
   const [deleteComment, { isLoading: deleteLoading }] = forumAPI.useDeleteCommentMutation();
@@ -60,10 +60,10 @@ export const CommentItem = ({ id, text, user, createdAt }) => {
         <Edit fontSize="20px"/>
       </Box>
       <Grid item padding={2}>
-        <Avatar alt="Remy Sharp" src={user.avatar || ""} />
+        <Avatar alt="Remy Sharp" src={user?.avatar || ""} />
       </Grid>
       <Grid justifyContent="left" pt={2} item xs zeroMinWidth>
-        <h4 style={{ margin: 0, textAlign: "left" }}>{author}</h4>
+        <h4 style={{ margin: 0, textAlign: "left" }}>{getFullName(user)}</h4>
         {isEdit ? (
           <Box sx={{ pt: 4, pr: 2, pb: 2 }}>
             <TextField

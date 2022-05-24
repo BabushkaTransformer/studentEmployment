@@ -16,3 +16,8 @@ export const EVENT_CREATE_ROUTE_PATH = '/event/create';
 
 export const PROFILE_ROUTE_PATH = '/profile';
 export const ABOUT_ROUTE_PATH = '/about_us';
+
+
+// admin
+export const ADMIN_ROUTE_PATH = '/admin';
+export const CREATE_STUDENT_ROUTE_PATH = '/student/create';
