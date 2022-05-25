@@ -1,98 +1,88 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Chart from 'react-apexcharts';
+import ReactApexChart from 'react-apexcharts';
 
 import { StatusCard } from '../../components/monitoring/statusCard/StatusCard';
 import { Table } from '../../components/monitoring/table/Table';
 import { Badge } from '../../components/monitoring/badge/Badge';
 import { useDarkMode } from '../../hooks/useDarkMode';
+import { monitoringAPI } from '../../store/services/MonitoringService';
+import { Group, OtherHousesRounded, PriceCheck } from '@mui/icons-material';
 
 const statusCards = [
   {
-    'icon': 'bx bx-shopping-bag',
+    'icon': <Group fontSize="large"/>,
     'count': '1,995',
-    'title': 'Total sales'
+    'title': 'Количество выпускников'
   },
   {
-    'icon': 'bx bx-cart',
+    'icon': <PriceCheck fontSize="large"/>,
     'count': '2,001',
-    'title': 'Daily visits'
+    'title': 'Количество групп'
   },
   {
-    'icon': 'bx bx-dollar-circle',
+    'icon': <PriceCheck fontSize="large"/>,
     'count': '$2,632',
-    'title': 'Total income'
+    'title': 'Средняя зарплата'
   },
   {
-    'icon': 'bx bx-receipt',
+    'icon':  <OtherHousesRounded fontSize="large"/>,
     'count': '1,711',
-    'title': 'Total orders'
+    'title': 'Еще что то'
   }
 ];
 const chartOptions = {
   series: [{
-    name: 'Online Customers',
-    data: [40, 70, 20, 90, 36, 80, 30, 91, 60]
+    name: 'Работают',
+    data: [44, 55, 57, 56]
   }, {
-    name: 'Store Customers',
-    data: [40, 30, 70, 80, 40, 16, 40, 20, 51, 10]
+    name: 'Общее',
+    data: [76, 85, 101, 98]
+  }, {
+    name: 'Без работы',
+    data: [35, 41, 36, 26]
+  }, {
+    name: 'За границей',
+    data: [12, 11, 7, 22]
   }],
   options: {
-    color: ['#6ab04c', '#2980b9'],
     chart: {
-      background: 'transparent'
+      type: 'bar'
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: '55%',
+        endingShape: 'rounded'
+      }
     },
     dataLabels: {
       enabled: false
     },
     stroke: {
-      curve: 'smooth'
+      show: true,
+      width: 2,
+      colors: ['transparent']
     },
     xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+      categories: ['2018', '2019', '2020', '2021']
     },
-    legend: {
-      position: 'top'
+    yaxis: {
+      title: {
+        text: 'Выпускники'
+      }
     },
-    grid: {
-      show: false
+    fill: {
+      opacity: 1
+    },
+    tooltip: {
+      y: {
+        formatter: function (val) {
+          return val + ' выпускников';
+        }
+      }
     }
   }
-};
-
-const topCustomers = {
-  head: [
-    'user',
-    'total orders',
-    'total spending'
-  ],
-  body: [
-    {
-      'username': 'john doe',
-      'order': '490',
-      'price': '$15,870'
-    },
-    {
-      'username': 'frank iva',
-      'order': '250',
-      'price': '$12,251'
-    },
-    {
-      'username': 'anthony baker',
-      'order': '120',
-      'price': '$10,840'
-    },
-    {
-      'username': 'frank iva',
-      'order': '110',
-      'price': '$9,251'
-    },
-    {
-      'username': 'anthony baker',
-      'order': '80',
-      'price': '$8,840'
-    }
-  ]
 };
 
 const renderCusomerHead = (item, index) => (
@@ -101,58 +91,11 @@ const renderCusomerHead = (item, index) => (
 
 const renderCusomerBody = (item, index) => (
   <tr key={index}>
-    <td>{item.username}</td>
-    <td>{item.order}</td>
-    <td>{item.price}</td>
+    <td>{item.firstName}</td>
+    <td>{item.salary}</td>
+    <td>{item.city}</td>
   </tr>
 );
-
-const latestOrders = {
-  header: [
-    'order id',
-    'user',
-    'total price',
-    'date',
-    'status'
-  ],
-  body: [
-    {
-      id: '#OD1711',
-      user: 'john doe',
-      date: '17 Jun 2021',
-      price: '$900',
-      status: 'shipping'
-    },
-    {
-      id: '#OD1712',
-      user: 'frank iva',
-      date: '1 Jun 2021',
-      price: '$400',
-      status: 'paid'
-    },
-    {
-      id: '#OD1713',
-      user: 'anthony baker',
-      date: '27 Jun 2021',
-      price: '$200',
-      status: 'pending'
-    },
-    {
-      id: '#OD1712',
-      user: 'frank iva',
-      date: '1 Jun 2021',
-      price: '$400',
-      status: 'paid'
-    },
-    {
-      id: '#OD1713',
-      user: 'anthony baker',
-      date: '27 Jun 2021',
-      price: '$200',
-      status: 'refund'
-    }
-  ]
-};
 
 const orderStatus = {
   'shipping': 'primary',
@@ -167,10 +110,10 @@ const renderOrderHead = (item, index) => (
 
 const renderOrderBody = (item, index) => (
   <tr key={index}>
-    <td>{item.id}</td>
-    <td>{item.user}</td>
-    <td>{item.price}</td>
-    <td>{item.date}</td>
+    <td>{item.firstName}</td>
+    <td>{item.createdAt}</td>
+    <td>{item.salary}</td>
+    <td>{item.city}</td>
     <td>
       <Badge type={orderStatus[item.status]} content={item.status}/>
     </td>
@@ -179,6 +122,7 @@ const renderOrderBody = (item, index) => (
 
 export const Dashboard = () => {
   const { isDarkMode } = useDarkMode();
+  const { data } = monitoringAPI.useGetStudentsQuery();
 
   return (
     <div>
@@ -191,7 +135,7 @@ export const Dashboard = () => {
                 <div className="col-6" key={index}>
                   <StatusCard
                     icon={item.icon}
-                    count={item.count}
+                    count={data?.length || 0}
                     title={item.title}
                   />
                 </div>
@@ -201,30 +145,29 @@ export const Dashboard = () => {
         </div>
         <div className="col-6">
           <div className="card full-height">
-            <Chart
-              options={isDarkMode ? {
-                ...chartOptions.options,
-                theme: { mode: 'dark' }
-              } : {
-                ...chartOptions.options,
-                theme: { mode: 'light' }
-              }}
+            <ReactApexChart
+              options={chartOptions.options}
               series={chartOptions.series}
-              type="line"
               height="100%"
+              type="bar"
             />
           </div>
         </div>
         <div className="col-4">
           <div className="card">
             <div className="card__header">
-              <h3>top customers</h3>
+              <h3>По зарплате</h3>
             </div>
             <div className="card__body">
               <Table
-                headData={topCustomers.head}
+                key={data ? data.length : 'card-table'}
+                headData={[
+                  'firstName',
+                  'salary',
+                  'city'
+                ]}
                 renderHead={(item, index) => renderCusomerHead(item, index)}
-                bodyData={topCustomers.body}
+                bodyData={data || []}
                 renderBody={(item, index) => renderCusomerBody(item, index)}
               />
             </div>
@@ -236,13 +179,19 @@ export const Dashboard = () => {
         <div className="col-8">
           <div className="card">
             <div className="card__header">
-              <h3>latest orders</h3>
+              <h3>Последние добавленные</h3>
             </div>
             <div className="card__body">
               <Table
-                headData={latestOrders.header}
+                key={data ? data.length : 'card-table'}
+                headData={[
+                  'firstName',
+                  'createdAt',
+                  'salary',
+                  'city'
+                ]}
                 renderHead={(item, index) => renderOrderHead(item, index)}
-                bodyData={latestOrders.body}
+                bodyData={data || []}
                 renderBody={(item, index) => renderOrderBody(item, index)}
               />
             </div>

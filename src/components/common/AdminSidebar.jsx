@@ -1,6 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useDarkMode } from '../../hooks/useDarkMode';
+import { useTranslation } from '../../hooks/useTranslation';
+
 import { styled } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
+
 import {
   Box,
   Divider,
@@ -9,16 +14,21 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText, Switch,
+  ListItemText,
+  Switch,
   Toolbar
 } from '@mui/material';
-import { ChevronLeft, Edit, DarkMode } from '@mui/icons-material';
+import {
+  ChevronLeft,
+  Edit,
+  DarkMode,
+  VerifiedUserSharp,
+  Group
+} from '@mui/icons-material';
 import {
   CREATE_STUDENT_ROUTE_PATH
 } from '../../constants';
-import { Link } from 'react-router-dom';
-import { useDarkMode } from '../../hooks/useDarkMode';
-import { useTranslation } from '../../hooks/useTranslation';
+
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth' })(
   ({ theme, open, drawerWidth }) => ({
@@ -55,6 +65,16 @@ export const AdminSidebar = ({ open, toggleDrawer, drawerWidth }) => {
       icon: Edit,
       title: 'Создать пользователя',
       path: CREATE_STUDENT_ROUTE_PATH
+    },
+    {
+      icon: VerifiedUserSharp,
+      title: 'Студенты',
+      path: '/students'
+    },
+    {
+      icon: Group,
+      title: 'Группы',
+      path: '/groups'
     }
   ];
 

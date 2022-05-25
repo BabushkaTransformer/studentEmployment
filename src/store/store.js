@@ -8,6 +8,7 @@ import { forumAPI } from './services/ForumService';
 import { resumeAPI } from './services/ResumeService';
 import { eventAPI } from './services/EventService';
 import { imageLoaderAPI } from './services/ImageLoaderService';
+import { monitoringAPI } from './services/MonitoringService';
 
 const rootReducer = combineReducers({
   auth: authSlice,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   [forumAPI.reducerPath]: forumAPI.reducer,
   [resumeAPI.reducerPath]: resumeAPI.reducer,
   [eventAPI.reducerPath]: eventAPI.reducer,
-  [imageLoaderAPI.reducerPath]: imageLoaderAPI.reducer
+  [imageLoaderAPI.reducerPath]: imageLoaderAPI.reducer,
+  [monitoringAPI.reducerPath]: monitoringAPI.reducer
 });
 
 const serviceMiddlewares = [
@@ -25,7 +27,8 @@ const serviceMiddlewares = [
   forumAPI.middleware,
   resumeAPI.middleware,
   eventAPI.middleware,
-  imageLoaderAPI.middleware
+  imageLoaderAPI.middleware,
+  monitoringAPI.middleware
 ]
 
 export const store = configureStore({

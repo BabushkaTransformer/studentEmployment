@@ -9,130 +9,22 @@ import { FirstStep } from '../../components/resume/FirstStep';
 import { SecondStep } from '../../components/resume/SecondStep';
 import { ThirdStep } from '../../components/resume/ThirdStep';
 import { Confirmation } from '../../components/resume/Confirmation';
+import { useValidate } from '../../hooks/useValidate';
+import {
+  EDUCATION_VALUES,
+  RESUME_ADDITIONAL_VALUES,
+  RESUME_VALUES
+} from '../../utils/formValues';
 
 const labels = ['First Step', 'Second Step', 'Third Step', 'Confirm'];
 
 export const CreateResume = () => {
-  const [formValues, setFormValues] = React.useState({
-    position: {
-      value: '',
-      error: '',
-      required: true,
-      validate: 'text',
-      minLength: 2,
-      maxLength: 50
-    },
-    firstName: {
-      value: '',
-      error: '',
-      required: true,
-      validate: 'text',
-      minLength: 2,
-      maxLength: 20,
-      helperText: 'Custom error message'
-    },
-    lastName: {
-      value: '',
-      error: '',
-      required: true,
-      validate: 'text',
-      minLength: 2,
-      maxLength: 20
-    },
-    email: {
-      value: '',
-      error: '',
-      validate: 'email'
-    },
-    date: {
-      value: '',
-      error: ''
-    },
-    city: {
-      value: '',
-      error: '',
-      validate: 'text',
-      minLength: 3,
-      maxLength: 20
-    },
-    phone: {
-      value: '',
-      error: '',
-      validate: 'phone',
-      maxLength: 15
-    }
-  });
-  const [education, setEducation] = React.useState({
-    university: {
-      value: '',
-        error: '',
-        required: true,
-        validate: 'text',
-        minLength: 2,
-        maxLength: 50
-    },
-    admissionDate: {
-      value: '',
-        error: '',
-        required: true,
-        validate: 'date',
-        minLength: 2,
-        maxLength: 50
-    },
-    endingDate: {
-      value: '',
-        error: '',
-        required: true,
-        validate: 'date',
-        minLength: 2,
-        maxLength: 50
-    },
-    faculty: {
-      value: '',
-        error: '',
-        required: true,
-        validate: 'text',
-        minLength: 2,
-        maxLength: 50
-    },
-    speciality: {
-      value: '',
-        error: '',
-        required: true,
-        validate: 'text',
-        minLength: 2,
-        maxLength: 50
-    },
-    degree: {
-      value: '',
-        error: '',
-        required: true,
-        validate: 'text',
-        minLength: 2,
-        maxLength: 50
-    }
-  });
-  const [skills, setSkills] = React.useState({
-    skills: [
-      {
-        value: '',
-        error: '',
-        required: true,
-        validate: 'text',
-        minLength: 2,
-        maxLength: 30
-      }
-    ],
-    extra: {
-      value: '',
-      error: '',
-      required: true,
-      validate: 'text',
-      minLength: 2,
-      maxLength: 50
-    }
-  });
+  const [formValues, setFormValues] = React.useState(RESUME_VALUES);
+  const [education, setEducation] = React.useState(EDUCATION_VALUES);
+  const [skills, setSkills] = React.useState(RESUME_ADDITIONAL_VALUES);
   const [activeStep, setActiveStep] = React.useState(0);
+
+  const { onValidate } = useValidate();
 
   const handleIncrease = () => setActiveStep(prev => prev + 1);
   const handleDecrease = () => setActiveStep(prev => prev - 1);
@@ -140,78 +32,17 @@ export const CreateResume = () => {
   const handleChange = (event, checked) => {
     const { type, name, value } = event.target;
     const fieldValue = type === 'checkbox' ? checked : value;
-
-    setFormValues(prev => ({
-      ...prev,
-      [name]: {
-        ...prev[name],
-        value: fieldValue
-      }
-    }));
-
     const fieldName = formValues[name];
     if (!fieldName) return;
-    const { required, validate, minLength, maxLength, helperText } = fieldName;
 
-    let error = '';
-    const isText = RegExp(/^[A-ZА-Я\s]*$/i);
-    const isEmail = RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
-    const isPhone = RegExp(/^\D?(\d{3})\D?\D?(\d{3})\D?(\d{3,6})$/);
-    const isZip = RegExp(/^[0-9]{5}([- /]?[0-9]{4})?$/);
-    const isNumber = RegExp(/^\d+$/);
-
-    if (required && !fieldValue) error = 'This field is required';
-    if (minLength && value && value.length < minLength)
-      error = `Minimum ${minLength} characters is required.`;
-    if (maxLength && value && value.length > maxLength)
-      error = 'Maximum length exceeded!';
-    if (validate) {
-      switch (validate) {
-        case 'text':
-          if (value && !isText.test(value))
-            error = helperText || 'This field accepts text only.';
-          break;
-
-        case 'number':
-          if (value && !isNumber.test(value))
-            error = helperText || 'This field accepts numbers only.';
-          break;
-
-        case 'email':
-          if (value && !isEmail.test(value))
-            error = helperText || 'Please enter a valid email address.';
-          break;
-
-        case 'phone':
-          if (value && !isPhone.test(value))
-            error =
-              helperText ||
-              'Please enter a valid phone number. i.e: xxx-xxx-xxxx';
-          break;
-
-        case 'zip':
-          if (value && !isZip.test(value))
-            error = helperText || 'Please enter a valid zip code.';
-          break;
-
-        case 'checkbox':
-          if (!checked) error = helperText || 'Please provide a valid value.';
-          break;
-
-        case 'select':
-          if (!value) error = helperText || 'Please select a value.';
-          break;
-
-        default:
-          break;
-      }
-    }
+    const { error } = onValidate(fieldName, fieldValue);
 
     setFormValues(prev => ({
       ...prev,
       [name]: {
         ...prev[name],
-        error
+        error,
+        value: fieldValue
       }
     }));
   };

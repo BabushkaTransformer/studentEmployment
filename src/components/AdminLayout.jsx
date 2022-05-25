@@ -3,20 +3,21 @@ import { Outlet } from 'react-router';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Header } from './common/Header';
+import { useDarkMode } from '../hooks/useDarkMode';
+import { AdminSidebar } from './common/AdminSidebar';
 import {
   Box,
   Toolbar,
   Container
 } from '@mui/material';
-import { Header } from './common/Header';
-import { useDarkMode } from '../hooks/useDarkMode';
-import { AdminSidebar } from './common/AdminSidebar';
 
 const drawerWidth = 260;
 
 export const AdminLayout = () => {
   const { isDarkMode } = useDarkMode();
   const [open, setOpen] = React.useState(false);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -65,4 +66,4 @@ export const AdminLayout = () => {
       </Box>
     </ThemeProvider>
   );
-}
+};

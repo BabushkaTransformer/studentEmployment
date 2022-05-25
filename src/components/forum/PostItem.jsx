@@ -14,17 +14,17 @@ export const PostItem = ({
 
   const navigateToDetail = () => {
     navigate(`/post/${id}`);
-  }
+  };
 
   return (
     <Card sx={{ minWidth: 275, marginBottom: '20px' }}>
       <CardContent>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 4, mb: 1 }}>
-          <Box component="span" sx={{ fontWeight: "bold" }}>{author}</Box>
-          <Box component="span" sx={{ fontSize: "sm" }}>{createdAt}</Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 4, mb: 1 }}>
+          <Box component="span" sx={{ fontWeight: 'bold' }}>{author}</Box>
+          <Box component="span" sx={{ fontSize: 'sm' }}>{createdAt}</Box>
         </Box>
         <Typography
-          sx={{ fontSize: 20, mb: 2, cursor: "pointer" }}
+          sx={{ fontSize: 20, mb: 2, cursor: 'pointer' }}
           onClick={navigateToDetail}
         >
           {title}
@@ -32,10 +32,10 @@ export const PostItem = ({
         <Typography
           variant="body2"
           dangerouslySetInnerHTML={{
-            __html: description || ""
+            __html: description || ''
           }}
         />
-        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
           {categories.map(category => (
             <Chip
               key={category.id}

@@ -21,3 +21,7 @@ export const ABOUT_ROUTE_PATH = '/about_us';
 // admin
 export const ADMIN_ROUTE_PATH = '/admin';
 export const CREATE_STUDENT_ROUTE_PATH = '/student/create';
+
+export const GROUPS_ROUTE_PATH = '/groups';
+export const GROUP_DETAIL_ROUTE_PATH = '/group/:id';
+export const CREATE_GROUP_ROUTE_PATH = '/group/create';

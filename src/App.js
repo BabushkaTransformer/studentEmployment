@@ -45,6 +45,8 @@ import { AdminLayout } from './components/AdminLayout';
 import { CreateStudent } from './pages/monitoring/CreateStudent';
 import { AdminPage } from './pages/AdminPage';
 import { Students } from './pages/monitoring/Students';
+import { Groups } from './pages/monitoring/Groups';
+import { Group } from './pages/monitoring/Group';
 
 function App() {
   const dispatch = useDispatch();
@@ -94,6 +96,8 @@ function App() {
           <Route path={ADMIN_ROUTE_PATH} element={<AdminPage/>}/>
           <Route path={CREATE_STUDENT_ROUTE_PATH} element={<CreateStudent/>}/>
           <Route path="/students" element={<Students/>}/>
+          <Route path="/groups" element={<Groups/>}/>
+          <Route path="/group/:id" element={<Group/>}/>
         </Route>
       </Routes>
     </div>
