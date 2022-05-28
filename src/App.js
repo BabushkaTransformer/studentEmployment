@@ -42,7 +42,7 @@ import { Events } from './pages/event/Events';
 import { Event } from './pages/event/Event';
 import { CreateEvent } from './pages/event/CreateEvent';
 import { AdminLayout } from './components/AdminLayout';
-import { CreateStudent } from './pages/monitoring/CreateStudent';
+import { CreateStudentModal } from './components/monitoring/CreateStudentModal';
 import { AdminPage } from './pages/AdminPage';
 import { Students } from './pages/monitoring/Students';
 import { Groups } from './pages/monitoring/Groups';
@@ -94,7 +94,7 @@ function App() {
 
         <Route element={<AdminLayout/>}>
           <Route path={ADMIN_ROUTE_PATH} element={<AdminPage/>}/>
-          <Route path={CREATE_STUDENT_ROUTE_PATH} element={<CreateStudent/>}/>
+          <Route path={CREATE_STUDENT_ROUTE_PATH} element={<CreateStudentModal/>}/>
           <Route path="/students" element={<Students/>}/>
           <Route path="/groups" element={<Groups/>}/>
           <Route path="/group/:id" element={<Group/>}/>

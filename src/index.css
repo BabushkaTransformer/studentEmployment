@@ -16,6 +16,20 @@
   align-items: center;
 }
 
+.modal-classes {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  border: 2px solid #000;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 16px 12px;
+}
+
 :root {
   --main-bg: #ffffff;
   --second-bg: #fafafb;

@@ -43,11 +43,7 @@ export const STUDENT_PERSONAL_VALUES = {
 export const STUDENT_INFO_VALUES = {
   group: {
     value: '',
-    error: '',
-    required: true,
-    validate: 'text',
-    minLength: 2,
-    maxLength: 20
+    required: false,
   },
   company: {
     value: '',
@@ -82,6 +78,9 @@ export const STUDENT_INFO_VALUES = {
     error: '',
     required: false,
     validate: 'text'
+  },
+  unemployed: {
+    value: false,
   }
 };
 

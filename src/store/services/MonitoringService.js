@@ -6,7 +6,7 @@ import {
   query,
   collection,
   getDocs,
-  addDoc
+  addDoc, where, orderBy
 } from 'firebase/firestore';
 import 'moment/locale/ru';
 import moment from 'moment';
@@ -16,12 +16,23 @@ moment.locale('ru');
 export const monitoringAPI = createApi({
   reducerPath: 'monitoringAPI',
   baseQuery: fetchBaseQuery({}),
-  tagTypes: ['Groups'],
+  tagTypes: ['Groups', 'Students'],
   endpoints: (build) => ({
     getStudents: build.query({
-      queryFn: async () => {
+      queryFn: async (id) => {
         const students = [];
-        const ref = query(collection(db, 'students'));
+
+        let ref = null;
+        if (id) {
+          ref = query(
+            collection(db, 'students'),
+            where("group", "==", id),
+            orderBy("createdAt", "desc")
+          );
+        } else {
+          ref = query(collection(db, 'students'));
+        }
+
         try {
           const querySnapshot = await getDocs(ref);
           querySnapshot.forEach((doc) => {
@@ -32,7 +43,8 @@ export const monitoringAPI = createApi({
         } catch (error) {
           return { error: error.code };
         }
-      }
+      },
+      providesTags: ['Students']
     }),
     getGroups: build.query({
       queryFn: async () => {
@@ -50,6 +62,18 @@ export const monitoringAPI = createApi({
         }
       },
       providesTags: ['Groups']
+    }),
+    getGroupById: build.query({
+      queryFn: async (id) => {
+        const docRef = doc(db, 'groups', id);
+        try {
+          const response = await getDoc(docRef);
+          const createdAt = moment(response.data().createdAt.seconds * 1000).fromNow();
+          return { data: { id: response.id, ...response.data(), createdAt } };
+        } catch (error) {
+          return { error: error.code };
+        }
+      }
     }),
     getStudentById: build.query({
       queryFn: async (id) => {
@@ -71,7 +95,8 @@ export const monitoringAPI = createApi({
         } catch (error) {
           return { error: error.code };
         }
-      }
+      },
+      invalidatesTags: ['Students']
     }),
     createGroup: build.mutation({
       queryFn: async (data) => {

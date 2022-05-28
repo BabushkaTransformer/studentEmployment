@@ -4,16 +4,17 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import { useValidate } from '../../hooks/useValidate';
 
-import { FirstStep } from '../../components/resume/FirstStep';
-import { SecondStep } from '../../components/monitoring/stepper/SecondStep';
-import { Confirmation } from '../../components/monitoring/stepper/Confirmation';
+import { FirstStep } from '../resume/FirstStep';
+import { SecondStep } from './stepper/SecondStep';
+import { Confirmation } from './stepper/Confirmation';
+import { Modal } from '@mui/material';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import { STUDENT_INFO_VALUES, STUDENT_PERSONAL_VALUES } from '../../utils/formValues';
 
 const labels = ['Личная информация', 'Данные о трудоустройстве', 'Просмотр'];
 
-export const CreateStudent = () => {
+export const CreateStudentModal = ({ open, onClose, group }) => {
   const [personal, setPersonal] = React.useState(STUDENT_PERSONAL_VALUES);
   const [employmentInfo, setEmploymentInfo] = React.useState(STUDENT_INFO_VALUES);
   const [activeStep, setActiveStep] = React.useState(0);
@@ -85,6 +86,8 @@ export const CreateStudent = () => {
             personalInfo={personal}
             employmentInfo={employmentInfo}
             handlePrev={handleDecrease}
+            onClose={onClose}
+            group={group}
           />
         );
       default:
@@ -93,27 +96,41 @@ export const CreateStudent = () => {
   };
 
   return (
-    <Box maxWidth={1200} mx="auto">
-      {activeStep === labels.length ? (
-        <>adsf</>
-      ) : (
-        <form>
-          <Box sx={{ my: 5 }}>
-            <Typography variant="h4" align="center">
-              Регистрация студента
-            </Typography>
-          </Box>
-          <Stepper activeStep={activeStep} sx={{ py: 3 }} alternativeLabel>
-            {labels.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+    <Modal
+      open={open}
+      onClose={onClose}
+    >
+      <Box
+        maxWidth={1200}
+        className="modal-classes"
+        sx={{
+          width: "100%",
+          bgcolor: "background.paper",
+          borderRadius: "10px",
+          p: 4
+        }}
+      >
+        {activeStep === labels.length ? (
+          <>adsf</>
+        ) : (
+          <form>
+            <Box sx={{ my: 5 }}>
+              <Typography variant="h4" align="center">
+                Регистрация студента
+              </Typography>
+            </Box>
+            <Stepper activeStep={activeStep} sx={{ py: 3 }} alternativeLabel>
+              {labels.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
 
-          {handleSteps(activeStep)}
-        </form>
-      )}
-    </Box>
+            {handleSteps(activeStep)}
+          </form>
+        )}
+      </Box>
+    </Modal>
   );
 };

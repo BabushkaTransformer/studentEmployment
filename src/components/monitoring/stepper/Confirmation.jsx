@@ -6,7 +6,7 @@ import { useTranslation } from '../../../hooks/useTranslation';
 import { Box, Button } from '@mui/material';
 import { monitoringAPI } from '../../../store/services/MonitoringService';
 
-export const Confirmation = ({ personalInfo, employmentInfo }) => {
+export const Confirmation = ({ personalInfo, employmentInfo, onClose, group }) => {
   const { t } = useTranslation();
 
   const [personalValues, setPersonalValues] = React.useState([]);
@@ -23,19 +23,21 @@ export const Confirmation = ({ personalInfo, employmentInfo }) => {
 
     setPersonalValues(result);
     setEmploymentValues(result1);
-
   }, [personalInfo, employmentInfo]);
 
   const handleCreateStudent = async () => {
     const data = {
       ...personalValues,
       ...employmentValues,
+      expirationDate: group.expirationDate,
+      group: group.id,
       createdAt: serverTimestamp()
     };
 
     try {
       await createStudent(data);
       toast.success('Создано!');
+      onClose();
     } catch (error) {
       toast.error('Что то пошло не так');
     }
