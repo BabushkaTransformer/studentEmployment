@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from '../../components/monitoring/table/Table';
 import { monitoringAPI } from '../../store/services/MonitoringService';
+import { useNavigate } from 'react-router';
 
 const customerTableHead = [
   'firstName',
@@ -13,11 +14,12 @@ const customerTableHead = [
 
 export const Students = () => {
   const { data } = monitoringAPI.useGetStudentsQuery();
+  const navigate = useNavigate();
 
   const renderHead = (item, index) => <th key={index}>{item}</th>;
 
   const renderBody = (item, index) => (
-    <tr key={index}>
+    <tr key={index} onClick={() => navigate(`/graduate/${item.id}`)}>
       <td>{item?.firstName}</td>
       <td>{item?.email}</td>
       <td>{item?.phone}</td>

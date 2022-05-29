@@ -8,29 +8,8 @@ import { Badge } from '../../components/monitoring/badge/Badge';
 import { useDarkMode } from '../../hooks/useDarkMode';
 import { monitoringAPI } from '../../store/services/MonitoringService';
 import { Group, OtherHousesRounded, PriceCheck } from '@mui/icons-material';
+import { PageLoader } from '../../components/ui/PageLoader';
 
-const statusCards = [
-  {
-    'icon': <Group fontSize="large"/>,
-    'count': '1,995',
-    'title': 'Количество выпускников'
-  },
-  {
-    'icon': <PriceCheck fontSize="large"/>,
-    'count': '2,001',
-    'title': 'Количество групп'
-  },
-  {
-    'icon': <PriceCheck fontSize="large"/>,
-    'count': '$2,632',
-    'title': 'Средняя зарплата'
-  },
-  {
-    'icon': <OtherHousesRounded fontSize="large"/>,
-    'count': '1,711',
-    'title': 'Еще что то'
-  }
-];
 
 const renderCusomerHead = (item, index) => (
   <th key={index}>{item}</th>
@@ -71,7 +50,8 @@ export const Dashboard = () => {
   const { isDarkMode } = useDarkMode();
   const [options, setOptions] = React.useState([]);
   const [converted, setConverted] = React.useState({});
-  const { data } = monitoringAPI.useGetStudentsQuery();
+  const { data, isLoading } = monitoringAPI.useGetStudentsQuery();
+  const { data: group, isLoading: groupLoading } = monitoringAPI.useGetGroupsQuery();
 
   React.useEffect(() => {
     if (data) {
@@ -143,11 +123,6 @@ export const Dashboard = () => {
       xaxis: {
         categories: Object.keys(converted)
       },
-      tooltip: {
-        x: {
-          format: 'dd/MM/yy HH:mm'
-        }
-      }
     }
   };
 
@@ -193,10 +168,40 @@ export const Dashboard = () => {
     }
   };
 
+  const statusCards = [
+    {
+      'icon': <Group fontSize="large"/>,
+      'count': data?.length,
+      'title': 'Количество выпускников'
+    },
+    {
+      'icon': <PriceCheck fontSize="large"/>,
+      'count': group?.length,
+      'title': 'Количество групп'
+    },
+    {
+      'icon': <PriceCheck fontSize="large"/>,
+      'count': data ? Math.floor(data.reduce((acc, el) => acc + +el.salary, 0) / data.length) : null,
+      'title': 'Средняя зарплата'
+    },
+    {
+      'icon': <OtherHousesRounded fontSize="large"/>,
+      'count': data?.filter(el => !el.unemployed).length,
+      'title': 'Колчество обустроенных'
+    }
+  ];
+
+  if (isLoading || groupLoading) {
+    return (
+      <PageLoader/>
+    )
+  }
+
   return (
     <div>
       <h2 className="page-header">Dashboard</h2>
       <div className="row">
+
         <div className="col-6">
           <div className="row">
             {
@@ -204,7 +209,7 @@ export const Dashboard = () => {
                 <div className="col-6" key={index}>
                   <StatusCard
                     icon={item.icon}
-                    count={data?.length || 0}
+                    count={item.count}
                     title={item.title}
                   />
                 </div>
@@ -212,6 +217,7 @@ export const Dashboard = () => {
             }
           </div>
         </div>
+
         <div className="col-6">
           <div className="card full-height">
             <ReactApexChart
@@ -222,56 +228,12 @@ export const Dashboard = () => {
             />
           </div>
         </div>
-        <div className="col-4">
-          <div className="card">
-            <div className="card__header">
-              <h3>По зарплате</h3>
-            </div>
-            <div className="card__body">
-              <Table
-                key={data ? data.length : 'card-table'}
-                headData={[
-                  'firstName',
-                  'salary',
-                  'city'
-                ]}
-                renderHead={(item, index) => renderCusomerHead(item, index)}
-                bodyData={data || []}
-                renderBody={(item, index) => renderCusomerBody(item, index)}
-              />
-            </div>
-            <div className="card__footer">
-              <Link to="/">view all</Link>
-            </div>
-          </div>
-        </div>
-        <div className="col-8">
-          <div className="card">
-            <div className="card__header">
-              <h3>Последние добавленные</h3>
-            </div>
-            <div className="card__body">
-              <Table
-                key={data ? data.length : 'card-table'}
-                headData={[
-                  'firstName',
-                  'createdAt',
-                  'salary',
-                  'city'
-                ]}
-                renderHead={(item, index) => renderOrderHead(item, index)}
-                bodyData={data || []}
-                renderBody={(item, index) => renderOrderBody(item, index)}
-              />
-            </div>
-            <div className="card__footer">
-              <Link to="/">view all</Link>
-            </div>
-          </div>
-        </div>
 
         <div className="col-6">
-          <div className="card full-height">
+          <div className="card">
+            <div className="card__header">
+              <h3>Количество выпускников каждого года</h3>
+            </div>
             <ReactApexChart
               options={lineOptions.options}
               series={lineOptions.series}
@@ -280,6 +242,29 @@ export const Dashboard = () => {
             />
           </div>
         </div>
+
+        <div className="col-6">
+          <div className="card">
+            <div className="card__header">
+              <h3>Последние добавленные</h3>
+            </div>
+            <div className="card__body">
+              <Table
+                key={data ? data.length : 'card-table'}
+                headData={[
+                  'ФИО',
+                  'Дата создания',
+                  'Зарплата',
+                  'Город'
+                ]}
+                renderHead={(item, index) => renderOrderHead(item, index)}
+                bodyData={data || []}
+                renderBody={(item, index) => renderOrderBody(item, index)}
+              />
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );

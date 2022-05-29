@@ -60,6 +60,12 @@ export const CreateStudentModal = ({ open, onClose, group }) => {
     }));
   };
 
+  const resetState = () => {
+    setActiveStep(0);
+    setPersonal(STUDENT_PERSONAL_VALUES);
+    setEmploymentInfo(STUDENT_INFO_VALUES);
+  };
+
   const handleSteps = (step) => {
     switch (step) {
       case 0:
@@ -88,6 +94,7 @@ export const CreateStudentModal = ({ open, onClose, group }) => {
             handlePrev={handleDecrease}
             onClose={onClose}
             group={group}
+            resetState={resetState}
           />
         );
       default:
@@ -104,9 +111,9 @@ export const CreateStudentModal = ({ open, onClose, group }) => {
         maxWidth={1200}
         className="modal-classes"
         sx={{
-          width: "100%",
-          bgcolor: "background.paper",
-          borderRadius: "10px",
+          width: '100%',
+          bgcolor: 'background.paper',
+          borderRadius: '10px',
           p: 4
         }}
       >

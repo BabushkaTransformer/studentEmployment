@@ -62,11 +62,6 @@ export const AdminSidebar = ({ open, toggleDrawer, drawerWidth }) => {
 
   const sidebarData = [
     {
-      icon: Edit,
-      title: 'Создать пользователя',
-      path: CREATE_STUDENT_ROUTE_PATH
-    },
-    {
       icon: VerifiedUserSharp,
       title: 'Студенты',
       path: '/students'

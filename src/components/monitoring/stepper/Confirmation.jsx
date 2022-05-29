@@ -6,7 +6,7 @@ import { useTranslation } from '../../../hooks/useTranslation';
 import { Box, Button } from '@mui/material';
 import { monitoringAPI } from '../../../store/services/MonitoringService';
 
-export const Confirmation = ({ personalInfo, employmentInfo, onClose, group }) => {
+export const Confirmation = ({ personalInfo, employmentInfo, onClose, group, resetState }) => {
   const { t } = useTranslation();
 
   const [personalValues, setPersonalValues] = React.useState([]);
@@ -30,13 +30,17 @@ export const Confirmation = ({ personalInfo, employmentInfo, onClose, group }) =
       ...personalValues,
       ...employmentValues,
       expirationDate: group.expirationDate,
+      groupName: group.title,
       group: group.id,
+      description: '',
+      avatar: '',
       createdAt: serverTimestamp()
     };
 
     try {
       await createStudent(data);
       toast.success('Создано!');
+      resetState();
       onClose();
     } catch (error) {
       toast.error('Что то пошло не так');
@@ -83,7 +87,7 @@ export const Confirmation = ({ personalInfo, employmentInfo, onClose, group }) =
         color="primary"
         onClick={handleCreateStudent}
       >
-        {t("common.create")}
+        {t('common.create')}
       </Button>
     </Box>
   );

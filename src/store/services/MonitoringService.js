@@ -6,7 +6,7 @@ import {
   query,
   collection,
   getDocs,
-  addDoc, where, orderBy
+  addDoc, where, orderBy, updateDoc
 } from 'firebase/firestore';
 import 'moment/locale/ru';
 import moment from 'moment';
@@ -46,6 +46,40 @@ export const monitoringAPI = createApi({
       },
       providesTags: ['Students']
     }),
+    getStudentById: build.query({
+      queryFn: async (id) => {
+        const docRef = doc(db, 'students', id);
+        try {
+          const response = await getDoc(docRef);
+          const createdAt = moment(response.data().createdAt.seconds * 1000).fromNow();
+          return { data: { id: response.id, ...response.data(), createdAt } };
+        } catch (error) {
+          return { error: error.code };
+        }
+      }
+    }),
+    createStudent: build.mutation({
+      queryFn: async (data) => {
+        try {
+          await addDoc(collection(db, 'students'), data);
+          return 'Создано!';
+        } catch (error) {
+          return { error: error.code };
+        }
+      },
+      invalidatesTags: ['Students']
+    }),
+    updateStudent: build.mutation({
+      queryFn: async (data) => {
+        try {
+          await updateDoc(doc(db, 'students', data.id), data);
+          return 'Сохранено!';
+        } catch (error) {
+          return { error: error.code };
+        }
+      },
+      invalidatesTags: ['Students']
+    }),
     getGroups: build.query({
       queryFn: async () => {
         const groups = [];
@@ -74,29 +108,6 @@ export const monitoringAPI = createApi({
           return { error: error.code };
         }
       }
-    }),
-    getStudentById: build.query({
-      queryFn: async (id) => {
-        const docRef = doc(db, 'students', id);
-        try {
-          const response = await getDoc(docRef);
-          const createdAt = moment(response.data().createdAt.seconds * 1000).fromNow();
-          return { data: { id: response.id, ...response.data(), createdAt } };
-        } catch (error) {
-          return { error: error.code };
-        }
-      }
-    }),
-    createStudent: build.mutation({
-      queryFn: async (data) => {
-        try {
-          await addDoc(collection(db, 'students'), data);
-          return 'Создано!';
-        } catch (error) {
-          return { error: error.code };
-        }
-      },
-      invalidatesTags: ['Students']
     }),
     createGroup: build.mutation({
       queryFn: async (data) => {

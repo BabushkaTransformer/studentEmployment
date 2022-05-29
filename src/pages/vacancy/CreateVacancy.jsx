@@ -14,6 +14,7 @@ import {
   TextField
 } from '@mui/material';
 import { vacancyAPI } from '../../store/services/VacancyService';
+import SunEditor, { buttonList } from 'suneditor-react';
 
 export const CreateVacancy = () => {
   const { isDarkMode } = useDarkMode();
@@ -21,11 +22,11 @@ export const CreateVacancy = () => {
   const [createVacancy] = vacancyAPI.useCreateVacancyMutation();
 
   const [vacancy, setVacancy] = React.useState({
-    position: "",
-    description: "",
-    salary: "",
-    type: "office",
-    phone: user?.phone || ""
+    position: '',
+    description: '',
+    salary: '',
+    type: 'office',
+    phone: user?.phone || ''
   });
 
   const getValue = (event) => {
@@ -39,72 +40,78 @@ export const CreateVacancy = () => {
 
   const handleCreateVacancy = async (event) => {
     event.preventDefault();
-    const author = `${user.lastName || ""} ${user.firstName || ""}`;
+    const author = `${user.lastName || ''} ${user.firstName || ''}`;
     const data = {
       ...vacancy,
       author,
       authorId: user?.id,
       company: user?.company,
       createdAt: serverTimestamp()
-    }
+    };
     try {
       await createVacancy(data).unwrap();
-      toast.success("Создано!");
+      toast.success('Создано!');
     } catch (e) {
-      toast.success("Произошла ошибка!");
+      toast.success('Произошла ошибка!');
     }
-  }
+  };
 
   return (
     <Box
       component="form"
       onSubmit={handleCreateVacancy}
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px'
       }}
     >
       <Box>
         <Box>Должность</Box>
         <TextField
+          fullWidth
           label="Должность"
           name="position"
           value={vacancy.position}
           onChange={getValue}
-          sx={{ width: "50%", background: isDarkMode ? "dark" : "white" }}
+          sx={{ background: isDarkMode ? 'dark' : 'white' }}
         />
       </Box>
       <Box>
         <Box>Оклад</Box>
         <TextField
+          fullWidth
           label="Оклад"
           name="salary"
           value={vacancy.salary}
           onChange={getValue}
-          sx={{ width: "50%", background: isDarkMode ? "dark" : "white" }}
+          sx={{ background: isDarkMode ? 'dark' : 'white' }}
         />
       </Box>
       <Box>
         <Box>Описание</Box>
-        <TextEditor
-          value={vacancy.description}
+        <SunEditor
+          height="300px"
+          setContents={vacancy.description}
           onChange={getEditorValue}
+          setOptions={{ buttonList: buttonList.complex }}
         />
       </Box>
 
       <Box>
         <Box>Оклад</Box>
         <TextField
+          fullWidth
           label="Телефон"
           name="phone"
           value={vacancy.phone}
           onChange={getValue}
-          sx={{ width: "50%", background: isDarkMode ? "dark" : "white" }}
+          sx={{ background: isDarkMode ? 'dark' : 'white' }}
         />
       </Box>
-      <FormControl sx={{ width: "50%", background: isDarkMode ? "dark" : "white" }}>
+      <FormControl sx={{ background: isDarkMode ? 'dark' : 'white' }}>
         <Select
+          fullWidth
           name="type"
           value={vacancy.type}
           onChange={getValue}
@@ -114,7 +121,7 @@ export const CreateVacancy = () => {
           <MenuItem value="remote">Удаленная работа</MenuItem>
         </Select>
       </FormControl>
-      <Button variant="contained" type="submit" sx={{ width: "120px" }}>Создать</Button>
+      <Button variant="contained" type="submit" sx={{ width: '120px' }}>Создать</Button>
     </Box>
   );
 };

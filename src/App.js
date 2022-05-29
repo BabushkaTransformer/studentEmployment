@@ -47,6 +47,7 @@ import { AdminPage } from './pages/AdminPage';
 import { Students } from './pages/monitoring/Students';
 import { Groups } from './pages/monitoring/Groups';
 import { Group } from './pages/monitoring/Group';
+import { Graduate } from './pages/monitoring/Graduate';
 
 function App() {
   const dispatch = useDispatch();
@@ -98,6 +99,7 @@ function App() {
           <Route path="/students" element={<Students/>}/>
           <Route path="/groups" element={<Groups/>}/>
           <Route path="/group/:id" element={<Group/>}/>
+          <Route path="/graduate/:id" element={<Graduate/>}/>
         </Route>
       </Routes>
     </div>
