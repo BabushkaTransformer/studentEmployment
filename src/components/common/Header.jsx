@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
+import { useSelector } from 'react-redux';
 import { useTranslation } from '../../hooks/useTranslation';
+import { styled } from '@mui/material/styles';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import MuiAppBar from '@mui/material/AppBar';
@@ -12,22 +13,22 @@ import {
   Divider,
   FormControl,
   IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem, Select,
+  MenuItem,
+  Select,
   Toolbar,
+  Typography,
+  Menu,
   Tooltip,
-  Typography
+  ListItemIcon
 } from '@mui/material';
 import {
-  ABOUT_ROUTE_PATH, ADMIN_ROUTE_PATH,
+  ADMIN_ROUTE_PATH,
   PROFILE_ROUTE_PATH,
   RESUME_ROUTE_PATH,
   VACANCY_ROUTE_PATH
 } from '../../constants';
 import { Login, Logout, TransitEnterexit } from '@mui/icons-material';
 import { authAPI } from '../../store/services/AuthService';
-import { useSelector } from 'react-redux';
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth'
@@ -39,7 +40,7 @@ const AppBar = styled(MuiAppBar, {
   }),
   ...(open && {
     marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    width: `100%`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
@@ -66,7 +67,6 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
   const pages = [
     { title: t('navbar.vacancy'), path: VACANCY_ROUTE_PATH },
     { title: t('navbar.resume'), path: RESUME_ROUTE_PATH },
-    { title: t('navbar.about'), path: ABOUT_ROUTE_PATH },
     { title: 'Форум', path: '/posts' },
     { title: 'Мероприятия', path: '/events' }
   ];
@@ -84,8 +84,8 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
           aria-label="open drawer"
           onClick={toggleDrawer}
           sx={{
-            marginRight: '36px',
-            ...(open && { display: 'none' })
+            marginRight: '36px'
+            // ...(open && { display: 'none' })
           }}
         >
           <MenuIcon/>

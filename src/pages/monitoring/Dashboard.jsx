@@ -1,34 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useDarkMode } from '../../hooks/useDarkMode';
 import ReactApexChart from 'react-apexcharts';
 
 import { StatusCard } from '../../components/monitoring/statusCard/StatusCard';
 import { Table } from '../../components/monitoring/table/Table';
-import { Badge } from '../../components/monitoring/badge/Badge';
-import { useDarkMode } from '../../hooks/useDarkMode';
+import { PageLoader } from '../../components/ui/PageLoader';
 import { monitoringAPI } from '../../store/services/MonitoringService';
 import { Group, OtherHousesRounded, PriceCheck } from '@mui/icons-material';
-import { PageLoader } from '../../components/ui/PageLoader';
 
-
-const renderCusomerHead = (item, index) => (
-  <th key={index}>{item}</th>
-);
-
-const renderCusomerBody = (item, index) => (
-  <tr key={index}>
-    <td>{item.firstName}</td>
-    <td>{item.salary}</td>
-    <td>{item.city}</td>
-  </tr>
-);
-
-const orderStatus = {
-  'shipping': 'primary',
-  'pending': 'warning',
-  'paid': 'success',
-  'refund': 'danger'
-};
 
 const renderOrderHead = (item, index) => (
   <th key={index}>{item}</th>
@@ -40,9 +19,6 @@ const renderOrderBody = (item, index) => (
     <td>{item.createdAt}</td>
     <td>{item.salary}</td>
     <td>{item.city}</td>
-    <td>
-      <Badge type={orderStatus[item.status]} content={item.status}/>
-    </td>
   </tr>
 );
 

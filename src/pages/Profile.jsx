@@ -127,7 +127,7 @@ export const Profile = () => {
         sx={{ mt: 1 }}
       >
         <Box display="flex">
-          <Box>
+          <Box width="50%">
             <TextField
               margin="normal"
               required

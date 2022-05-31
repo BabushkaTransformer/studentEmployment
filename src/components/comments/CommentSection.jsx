@@ -1,13 +1,14 @@
 import React from 'react';
-import { CommentItem } from './CommentItem';
-import { forumAPI } from '../../store/services/ForumService';
-import { toast } from 'react-hot-toast';
-import { Box, CircularProgress } from '@mui/material';
-import { CommentInput } from './CommentInput';
 import { useSelector } from 'react-redux';
-import { serverTimestamp } from 'firebase/firestore';
+import { toast } from 'react-hot-toast';
 
-export const CommentSection = ({ id }) => {
+import { CommentItem } from './CommentItem';
+import { CommentInput } from './CommentInput';
+import { serverTimestamp } from 'firebase/firestore';
+import { Box, CircularProgress } from '@mui/material';
+import { forumAPI } from '../../store/services/ForumService';
+
+export const CommentSection = ({ id, setCommentLength }) => {
   const { user } = useSelector(state => state.auth);
   const [createComment, { isLoading: createLoading }] = forumAPI.useCreateCommentMutation();
   const { data, isLoading } = forumAPI.useGetCommentsQuery(id);
@@ -25,6 +26,10 @@ export const CommentSection = ({ id }) => {
       toast.error('Что-то пошло не так');
     }
   };
+
+  React.useEffect(() => {
+    data && setCommentLength(data.length);
+  }, [data]);
 
   if (isLoading) {
     return (

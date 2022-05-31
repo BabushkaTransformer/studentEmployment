@@ -16,6 +16,12 @@
   align-items: center;
 }
 
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .modal-classes {
   position: absolute;
   top: 50%;
@@ -300,4 +306,28 @@
 .orange-color {
   background-color: var(--main-color-orange);
   color: #fff;
+}
+
+.scrollbar::-webkit-scrollbar {
+   width: 6px;
+   height: 6px;
+ }
+.scrollbar::-webkit-scrollbar-track {
+   border-radius: 10px;
+   background: rgba(0,0,0,0.1);
+ }
+.scrollbar::-webkit-scrollbar-thumb{
+   border-radius: 10px;
+   background: rgba(0,0,0,0.2);
+ }
+.scrollbar::-webkit-scrollbar-thumb:hover{
+   background: rgba(0,0,0,0.4);
+ }
+.scrollbar::-webkit-scrollbar-thumb:active{
+   background: rgba(0,0,0,.9);
+ }
+
+.typography-margins p {
+  max-width: 900px;
+  margin: 0 auto;
 }

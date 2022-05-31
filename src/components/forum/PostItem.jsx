@@ -46,7 +46,7 @@ export const PostItem = ({
         </Box>
       </CardContent>
       <CardActions>
-        <Button size="small">Подробнее</Button>
+        <Button size="small" onClick={navigateToDetail}>Подробнее</Button>
       </CardActions>
     </Card>
   );

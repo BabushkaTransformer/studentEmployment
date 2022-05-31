@@ -1,17 +1,28 @@
 import React from 'react';
-import { Avatar, Box, Button, CircularProgress, Grid, TextField } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { useSelector } from 'react-redux';
 import { useDarkMode } from '../../hooks/useDarkMode';
-import { Delete, Edit } from '@mui/icons-material';
-import { forumAPI } from '../../store/services/ForumService';
 import { toast } from 'react-hot-toast';
-import IconButton from '@mui/material/IconButton';
 import { getFullName } from '../../utils';
+
+import LoadingButton from '@mui/lab/LoadingButton';
+import IconButton from '@mui/material/IconButton';
+import { forumAPI } from '../../store/services/ForumService';
+import { Delete, Edit } from '@mui/icons-material';
+import {
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  TextField
+} from '@mui/material';
 
 export const CommentItem = ({ id, text, user, createdAt }) => {
   const { isDarkMode } = useDarkMode();
   const [isEdit, setIsEdit] = React.useState(false);
   const [comment, setComment] = React.useState(text || '');
+
+  const { user: currentUser } = useSelector(state => state.auth);
 
   const [updateComment, { isLoading: updateLoading }] = forumAPI.useUpdateCommentMutation();
   const [deleteComment, { isLoading: deleteLoading }] = forumAPI.useDeleteCommentMutation();
@@ -44,7 +55,6 @@ export const CommentItem = ({ id, text, user, createdAt }) => {
     }
   }
 
-
   return (
     <Grid
       container
@@ -53,12 +63,14 @@ export const CommentItem = ({ id, text, user, createdAt }) => {
       borderRadius={1}
       position="relative"
     >
-      <Box
-        onClick={toggleIsEdit}
-        sx={{ position: "absolute", top: 10, right: 10, cursor: "pointer" }}
-      >
-        <Edit fontSize="20px"/>
-      </Box>
+      {currentUser?.id === user?.id && (
+        <Box
+          onClick={toggleIsEdit}
+          sx={{ position: "absolute", top: 10, right: 10, cursor: "pointer" }}
+        >
+          <Edit fontSize="20px"/>
+        </Box>
+      )}
       <Grid item padding={2}>
         <Avatar alt="Remy Sharp" src={user?.avatar || ""} />
       </Grid>

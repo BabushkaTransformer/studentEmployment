@@ -11,12 +11,13 @@ import {
 import { Header } from './common/Header';
 import { Sidebar } from './common/Sidebar';
 import { useDarkMode } from '../hooks/useDarkMode';
+import { RightSidebar } from './common/RightSidebar';
 
 const drawerWidth = 260;
 
 export const Layout = () => {
   const { isDarkMode } = useDarkMode();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -33,7 +34,7 @@ export const Layout = () => {
 
   return (
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex' }} className="scrollbar" height="100vh">
         <CssBaseline/>
         <Header
           open={open}
@@ -53,7 +54,6 @@ export const Layout = () => {
                 ? theme.palette.grey[100]
                 : theme.palette.grey[900],
             flexGrow: 1,
-            height: '100vh',
             overflow: 'auto'
           }}
         >
@@ -62,6 +62,7 @@ export const Layout = () => {
             <Outlet/>
           </Container>
         </Box>
+        <RightSidebar/>
       </Box>
     </ThemeProvider>
   );

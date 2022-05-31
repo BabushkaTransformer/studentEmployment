@@ -60,10 +60,9 @@ export const CreatePost = () => {
 
   const handleCreatePost = async (event) => {
     event.preventDefault();
-    const author = `${user.lastName || ""} ${user.firstName || ""}`;
     const data = {
       ...post,
-      author,
+      user,
       categories: selectedCategories,
       authorId: user?.id,
       createdAt: serverTimestamp()
