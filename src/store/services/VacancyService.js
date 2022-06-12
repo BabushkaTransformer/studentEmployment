@@ -8,6 +8,9 @@ import {
   getDocs,
   addDoc
 } from 'firebase/firestore';
+import moment from 'moment';
+
+moment.locale('ru');
 
 export const vacancyAPI = createApi({
   reducerPath: 'vacancyAPI',
@@ -20,7 +23,8 @@ export const vacancyAPI = createApi({
         try {
           const querySnapshot = await getDocs(ref);
           querySnapshot.forEach((doc) => {
-            vacancies.push({id: doc.id, ...doc.data()});
+            const createdAt = moment(doc.data().createdAt.seconds * 1000).fromNow();
+            vacancies.push({id: doc.id, ...doc.data(), createdAt});
           });
           return { data: vacancies }
         } catch (error) {

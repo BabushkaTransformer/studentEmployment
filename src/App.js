@@ -48,6 +48,7 @@ import { Students } from './pages/monitoring/Students';
 import { Groups } from './pages/monitoring/Groups';
 import { Group } from './pages/monitoring/Group';
 import { Graduate } from './pages/monitoring/Graduate';
+import { ResultPage } from './pages/ResultPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -91,6 +92,7 @@ function App() {
           <Route path={EVENT_CREATE_ROUTE_PATH} element={<CreateEvent/>}/>
 
           <Route path={PROFILE_ROUTE_PATH} element={<Profile/>}/>
+          <Route path="/search-result" element={<ResultPage/>}/>
         </Route>
 
         <Route element={<AdminLayout/>}>

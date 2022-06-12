@@ -18,8 +18,9 @@ const drawerWidth = 260;
 export const Layout = () => {
   const { isDarkMode } = useDarkMode();
   const [open, setOpen] = React.useState(true);
+
   const toggleDrawer = () => {
-    setOpen(!open);
+    setOpen(prev => !prev);
   };
 
   const mdTheme = React.useMemo(
@@ -34,7 +35,7 @@ export const Layout = () => {
 
   return (
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: 'flex' }} className="scrollbar" height="100vh">
+      <Box sx={{ display: 'flex' }} className="scrollbar">
         <CssBaseline/>
         <Header
           open={open}
@@ -58,7 +59,7 @@ export const Layout = () => {
           }}
         >
           <Toolbar/>
-          <Container sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
             <Outlet/>
           </Container>
         </Box>
@@ -66,4 +67,4 @@ export const Layout = () => {
       </Box>
     </ThemeProvider>
   );
-}
+};

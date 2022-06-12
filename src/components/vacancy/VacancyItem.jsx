@@ -8,13 +8,12 @@ export const VacancyItem = (props) => {
     id,
     position,
     salary,
-    type,
     city,
     company,
     shortDescription
   } = props;
   const navigate = useNavigate();
-  console.log(props);
+
   const navigateToDetail = () => {
     navigate(`${VACANCY_ROUTE_PATH}/${id}`);
   };

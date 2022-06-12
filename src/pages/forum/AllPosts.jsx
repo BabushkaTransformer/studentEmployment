@@ -1,33 +1,36 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import { CircularProgress } from '@mui/material';
-import { forumAPI } from '../../store/services/ForumService';
-import { PostItem } from '../../components/forum/PostItem';
 
-export const AllPosts = () => {
+import { Link } from 'react-router-dom';
+import { PostItem } from '../../components/forum/PostItem';
+import { PageLoader } from '../../components/ui/PageLoader';
+import { Button } from '@mui/material';
+import { forumAPI } from '../../store/services/ForumService';
+import { POSTS_ROUTE_PATH } from '../../constants';
+
+export const AllPosts = ({ isTab }) => {
   const { data, isLoading } = forumAPI.useGetPostsQuery();
 
   if (isLoading) {
     return (
-      <Box
-        sx={{
-          width: "100%",
-          height: "80vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-        <CircularProgress/>
-      </Box>
+      <PageLoader/>
     )
   }
 
   return (
     <div>
-      {data?.map(post => (
+      {data?.slice(0, isTab ? 3 : data?.length).map(post => (
         <PostItem key={post.id} {...post}/>
       ))}
+
+      {isTab && (
+        <Button
+          variant="contained"
+          component={Link}
+          to={POSTS_ROUTE_PATH}
+        >
+          Посмотреть все
+        </Button>
+      )}
     </div>
   );
 };

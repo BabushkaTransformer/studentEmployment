@@ -78,7 +78,11 @@ export const PostDetail = () => {
       </Box>
 
       <Box sx={{ py: 4, px: 6, background: isDarkMode ? 'dark' : 'white', borderRadius: 2, mt: 5 }}>
-        <CommentSection id={id} setCommentLength={setCommentLength}/>
+        <CommentSection
+          id={id}
+          postTitle={title}
+          setCommentLength={setCommentLength}
+        />
       </Box>
     </Box>
   );

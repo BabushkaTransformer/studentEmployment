@@ -8,7 +8,7 @@ import { serverTimestamp } from 'firebase/firestore';
 import { Box, CircularProgress } from '@mui/material';
 import { forumAPI } from '../../store/services/ForumService';
 
-export const CommentSection = ({ id, setCommentLength }) => {
+export const CommentSection = ({ id, setCommentLength, postTitle }) => {
   const { user } = useSelector(state => state.auth);
   const [createComment, { isLoading: createLoading }] = forumAPI.useCreateCommentMutation();
   const { data, isLoading } = forumAPI.useGetCommentsQuery(id);
@@ -16,6 +16,7 @@ export const CommentSection = ({ id, setCommentLength }) => {
   const handleCreateComment = async (comment) => {
     const data = {
       user,
+      postTitle,
       text: comment,
       postId: id,
       createdAt: serverTimestamp()

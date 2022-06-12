@@ -33,6 +33,7 @@ export const Event = () => {
         {title}
       </Typography>
       <Typography
+        className="detail-image-max"
         variant="body1"
         dangerouslySetInnerHTML={{
           __html: description || ''

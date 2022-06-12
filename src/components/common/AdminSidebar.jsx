@@ -11,23 +11,20 @@ import {
   Divider,
   IconButton,
   List,
+  Toolbar,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Switch,
-  Toolbar
+  Switch
 } from '@mui/material';
 import {
   ChevronLeft,
-  Edit,
   DarkMode,
   VerifiedUserSharp,
-  Group
+  Group,
+  AdminPanelSettings
 } from '@mui/icons-material';
-import {
-  CREATE_STUDENT_ROUTE_PATH
-} from '../../constants';
 
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth' })(
@@ -61,6 +58,11 @@ export const AdminSidebar = ({ open, toggleDrawer, drawerWidth }) => {
   const { isDarkMode, toggle } = useDarkMode();
 
   const sidebarData = [
+    {
+      icon: AdminPanelSettings,
+      title: 'Админ панель',
+      path: '/admin'
+    },
     {
       icon: VerifiedUserSharp,
       title: 'Студенты',

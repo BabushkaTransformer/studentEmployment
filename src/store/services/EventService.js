@@ -6,8 +6,10 @@ import {
   query,
   collection,
   getDocs,
-  addDoc
+  addDoc,
+  orderBy
 } from 'firebase/firestore';
+
 import moment from 'moment';
 import 'moment/locale/ru';
 
@@ -16,22 +18,29 @@ moment.locale('ru');
 export const eventAPI = createApi({
   reducerPath: 'eventAPI',
   baseQuery: fetchBaseQuery({}),
+  tagTypes: ['Event'],
   endpoints: (build) => ({
     getEvents: build.query({
-      queryFn: async (id) => {
+      queryFn: async () => {
         const events = [];
-        const ref = query(collection(db, 'events'));
+
+        const ref = query(
+          collection(db, 'events'),
+          orderBy('createdAt', 'desc')
+        );
+
         try {
           const querySnapshot = await getDocs(ref);
           querySnapshot.forEach((doc) => {
             const createdAt = moment(doc.data().createdAt.seconds * 1000).fromNow();
             events.push({ id: doc.id, ...doc.data(), createdAt });
           });
-          return { data: events }
+          return { data: events };
         } catch (error) {
-          return { error: error.code }
+          return { error: error.code };
         }
-      }
+      },
+      providesTags: ['Event']
     }),
     getEventById: build.query({
       queryFn: async (id) => {
@@ -41,7 +50,7 @@ export const eventAPI = createApi({
           const createdAt = moment(response.data().createdAt.seconds * 1000).fromNow();
           return { data: { id: response.id, ...response.data(), createdAt } };
         } catch (error) {
-          return { error: error.code }
+          return { error: error.code };
         }
       }
     }),
@@ -53,7 +62,8 @@ export const eventAPI = createApi({
         } catch (error) {
           return { error: error.code };
         }
-      }
+      },
+      invalidatesTags: ['Event']
     })
   })
 });

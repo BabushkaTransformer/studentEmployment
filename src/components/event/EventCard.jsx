@@ -4,7 +4,6 @@ import {
   Box,
   Card,
   CardContent,
-  CardMedia,
   Typography
 } from '@mui/material';
 import { useNavigate } from 'react-router';
@@ -12,7 +11,11 @@ import { getFullName } from '../../utils';
 
 export const EventCard = (data) => {
   const navigate = useNavigate();
-  const { author, createdAt, title, id } = data;
+  const { author, createdAt, title, id, description } = data;
+
+  const navigateToEventDetail = () => {
+    navigate(`/event/${id}`);
+  };
 
   return (
     <Card>
@@ -26,16 +29,16 @@ export const EventCard = (data) => {
             {createdAt}
           </Typography>
         </Box>
-        <Box>
-          <Typography variant="h5" sx={{ pt: 3, fontWeight: 'bold' }}>
+        <Box onClick={navigateToEventDetail} sx={{ cursor: 'pointer' }}>
+          <Typography variant="h5" sx={{ pt: 3, fontWeight: 'bold' }} gutterBottom>
             {title}
           </Typography>
-          <CardMedia
-            onClick={() => navigate(`/event/${id}`)}
-            sx={{ py: 2 }}
-            component="img"
-            height="300"
-            image="https://leonardo.osnova.io/51398f01-8352-59c8-bdea-a0874dd7d613/-/preview/700/-/format/webp/"
+          <Typography
+            className="wrap-3 card-reset"
+            variant="body1"
+            dangerouslySetInnerHTML={{
+              __html: description
+            }}
           />
         </Box>
       </CardContent>
