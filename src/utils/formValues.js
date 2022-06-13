@@ -25,6 +25,11 @@ export const STUDENT_PERSONAL_VALUES = {
     value: '',
     error: ''
   },
+  sex: {
+    value: 'male',
+    error: '',
+    required: false,
+  },
   city: {
     value: '',
     error: '',

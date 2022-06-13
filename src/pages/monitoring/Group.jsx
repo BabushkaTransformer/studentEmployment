@@ -7,11 +7,12 @@ import { Table } from '../../components/monitoring/table/Table';
 import { useDarkMode } from '../../hooks/useDarkMode';
 import { CreateStudentModal } from '../../components/monitoring/CreateStudentModal';
 import { Box, Tooltip } from '@mui/material';
-import { PlusOne } from '@mui/icons-material';
+import { Group as GroupIcon, OtherHousesRounded, PlusOne, PriceCheck } from '@mui/icons-material';
 import { monitoringAPI } from '../../store/services/MonitoringService';
 import IconButton from '@mui/material/IconButton';
 import { PageLoader } from '../../components/ui/PageLoader';
 import { NotData } from '../NotData';
+import { StatusCard } from '../../components/monitoring/statusCard/StatusCard';
 
 export const Group = () => {
   const { id } = useParams();
@@ -28,6 +29,8 @@ export const Group = () => {
   const [abroad, setAbroad] = React.useState(0);
   const [bySpeciality, setBySpeciality] = React.useState(0);
   const [notBySpeciality, setNotBySpeciality] = React.useState(0);
+  const [maleCount, setMaleCount] = React.useState(0);
+  const [femaleCount, setFemaleCount] = React.useState(0);
 
   const renderCusomerHead = (item, index) => (
     <th key={index}>{item}</th>
@@ -44,13 +47,13 @@ export const Group = () => {
   );
 
   const chartOptions = {
-    series: [working, notWorking, abroad],
+    series: [femaleCount, maleCount],
     options: {
       chart: {
         width: 380,
         type: 'pie'
       },
-      labels: ['Работают', 'Не работают', 'За границей'],
+      labels: ['Женщины', 'Мужчины'],
       responsive: [{
         breakpoint: 480,
         options: {
@@ -99,6 +102,7 @@ export const Group = () => {
       const unemployedCount = data.filter(student => student.unemployed).length;
       const abroadCount = data.filter(student => student.abroad === 'yes').length;
       const bySpecialityCount = data.filter(student => student.bySpeciality === 'yes').length;
+      const females = data.filter(student => student.sex === 'female').length;
 
       setAll(allCount);
       setNotWorking(unemployedCount);
@@ -106,20 +110,59 @@ export const Group = () => {
       setAbroad(abroadCount);
       setBySpeciality(bySpecialityCount);
       setNotBySpeciality(allCount - unemployedCount - bySpecialityCount);
+      setFemaleCount(females);
+      setMaleCount(allCount - females);
     }
   }, [data]);
 
   if (isLoading) {
     return (
       <PageLoader/>
-    )
+    );
   }
+
+  const statusCards = [
+    {
+      'icon': <GroupIcon fontSize="large"/>,
+      'count': data?.length,
+      'title': 'Количество выпускников'
+    },
+    {
+      'icon': <PriceCheck fontSize="large"/>,
+      'count': data?.length,
+      'title': 'Количество групп'
+    },
+    {
+      'icon': <PriceCheck fontSize="large"/>,
+      'count': data ? Math.floor(data.reduce((acc, el) => acc + +el.salary, 0) / data.length) : null,
+      'title': 'Средняя зарплата'
+    },
+    {
+      'icon': <OtherHousesRounded fontSize="large"/>,
+      'count': data?.filter(el => !el.unemployed).length,
+      'title': 'Колчество обустроенных'
+    }
+  ];
 
   return (
     <div>
       <h2 className="page-header">{group?.title}</h2>
       <div className="row">
         <div className="col-11">
+          <div className="row">
+            {
+              statusCards.map((item, index) => (
+                <div className="col-3" key={index}>
+                  <StatusCard
+                    icon={item.icon}
+                    count={item.count}
+                    title={item.title}
+                  />
+                </div>
+              ))
+            }
+          </div>
+
           {data?.length ? (
             <div className="row">
               <div className="col-8">
@@ -170,10 +213,21 @@ export const Group = () => {
           )}
         </div>
         <div className="col-1">
-          <Box className="card flex-center" sx={{ position: 'sticky', top: '95.5px' }}>
-            <Tooltip title="Добавить пользователя">
-              <IconButton onClick={toggleModal}>
+          <Box className="card flex-center" sx={{
+            position: 'sticky',
+            top: '95.5px',
+            p: '20px'
+          }}>
+            <Tooltip title="Добавить выпускника">
+              <IconButton onClick={toggleModal} sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1,
+                textAlign: 'center',
+                fontSize: '12px',
+              }}>
                 <PlusOne/>
+                  Добавить <br/> выпускника
               </IconButton>
             </Tooltip>
           </Box>

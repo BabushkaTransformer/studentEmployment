@@ -59,7 +59,10 @@ export const AdminLayout = () => {
           }}
         >
           <Toolbar/>
-          <Container maxWidth="100%" sx={{ mt: 4, mb: 4 }}>
+          <Container
+            maxWidth="100%" sx={{ mt: 4, mb: 4 }}
+            className={isDarkMode ? 'theme-mode-dark' : 'theme-mode-light'}
+          >
             <Outlet/>
           </Container>
         </Box>

@@ -23,7 +23,6 @@ const renderOrderBody = (item, index) => (
 );
 
 export const Dashboard = () => {
-  const { isDarkMode } = useDarkMode();
   const [options, setOptions] = React.useState([]);
   const [converted, setConverted] = React.useState({});
   const { data, isLoading } = monitoringAPI.useGetStudentsQuery();
@@ -98,7 +97,7 @@ export const Dashboard = () => {
       },
       xaxis: {
         categories: Object.keys(converted)
-      },
+      }
     }
   };
 
@@ -170,7 +169,7 @@ export const Dashboard = () => {
   if (isLoading || groupLoading) {
     return (
       <PageLoader/>
-    )
+    );
   }
 
   return (

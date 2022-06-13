@@ -1,31 +1,34 @@
 import React from 'react';
+import { useDarkMode } from '../../hooks/useDarkMode';
+import { useParams } from 'react-router';
+
 import { CircularProgress, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import { useParams } from 'react-router';
 import { vacancyAPI } from '../../store/services/VacancyService';
 
 export const VacancyDetail = () => {
   const { id } = useParams();
+  const { isDarkMode } = useDarkMode();
   const { data, isLoading } = vacancyAPI.useGetVacancyByIdQuery(id);
 
   if (isLoading) {
     return (
       <Box
         sx={{
-          width: "100%",
-          height: "80vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
+          width: '100%',
+          height: '80vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
       >
         <CircularProgress/>
       </Box>
-    )
+    );
   }
 
   return (
-    <Box sx={{ p: 6, background: "white", borderRadius: 2 }}>
+    <Box sx={{ p: 6, background: isDarkMode ? 'dark' : 'white', borderRadius: 2 }}>
       <Typography variant="h3" gutterBottom>
         {data?.position}
       </Typography>
@@ -53,7 +56,7 @@ export const VacancyDetail = () => {
         <Typography
           variant="body1"
           dangerouslySetInnerHTML={{
-            __html: data?.description || ""
+            __html: data?.description || ''
           }}
         />
       </Box>

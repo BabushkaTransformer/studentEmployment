@@ -1,20 +1,21 @@
-import React  from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useTranslation } from '../../hooks/useTranslation';
+import { MenuItem, Select } from '@mui/material';
 
 const variant = 'standard';
 const margin = 'normal';
 
 export const FirstStep = ({ formValues, handleChange, handleNext }) => {
   const { t } = useTranslation();
-  const { firstName, lastName, email, phone, city, date, position } = formValues;
+  const { firstName, lastName, email, phone, city, date, position, sex } = formValues;
 
   const isError = React.useCallback(
     () =>
-      Object.keys({ firstName, lastName, email, phone, city, date }).some(
+      Object.keys({ firstName, lastName, email, phone, city, date, sex }).some(
         (name) =>
           (formValues[name].required && !formValues[name].value) ||
           formValues[name].error
@@ -31,9 +32,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
               variant={variant}
               margin={margin}
               fullWidth
-              label={t("form.name")}
+              label={t('form.name')}
               name="firstName"
-              placeholder={t("form.name")}
+              placeholder={t('form.name')}
               value={firstName.value}
               onChange={handleChange}
               error={!!firstName.error}
@@ -48,9 +49,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
               variant={variant}
               margin={margin}
               fullWidth
-              label={t("form.surname")}
+              label={t('form.surname')}
               name="lastName"
-              placeholder={t("form.surname")}
+              placeholder={t('form.surname')}
               value={lastName.value}
               onChange={handleChange}
               error={!!lastName.error}
@@ -66,9 +67,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
               variant={variant}
               margin={margin}
               fullWidth
-              label={t("form.email")}
+              label={t('form.email')}
               name="email"
-              placeholder={t("form.email")}
+              placeholder={t('form.email')}
               type="email"
               value={email.value}
               onChange={handleChange}
@@ -85,9 +86,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
               variant={variant}
               margin={margin}
               fullWidth
-              label={t("form.phone")}
+              label={t('form.phone')}
               name="phone"
-              placeholder={t("form.phone")}
+              placeholder={t('form.phone')}
               value={phone.value}
               onChange={handleChange}
               error={!!phone.error}
@@ -103,9 +104,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
               variant={variant}
               margin={margin}
               fullWidth
-              label={t("form.city")}
+              label={t('form.city')}
               name="city"
-              placeholder={t("form.city")}
+              placeholder={t('form.city')}
               value={city.value}
               onChange={handleChange}
               error={!!city.error}
@@ -115,23 +116,39 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
           )}
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          {date && (
-            <TextField
-              variant={variant}
-              margin={margin}
-              fullWidth
-              InputLabelProps={{
-                shrink: true
-              }}
-              label={t("form.birthDay")}
-              name="date"
-              type="date"
-              defaultValue={date.value}
-              onChange={handleChange}
-              required={date.required}
-            />
-          )}
+        <Grid item xs={12} sm={6} container spacing={2}>
+          <Grid item xs={6}>
+            {date && (
+              <TextField
+                variant={variant}
+                margin={margin}
+                fullWidth
+                InputLabelProps={{
+                  shrink: true
+                }}
+                label={t('form.birthDay')}
+                name="date"
+                type="date"
+                defaultValue={date.value}
+                onChange={handleChange}
+                required={date.required}
+              />
+            )}
+          </Grid>
+          <Grid item xs={6} sx={{ mt: '32px' }}>
+            {sex && (
+              <Select
+                variant="standard"
+                name="sex"
+                value={sex.value}
+                fullWidth
+                onChange={handleChange}
+              >
+                <MenuItem value="male">Муж.</MenuItem>
+                <MenuItem value="female">Жен.</MenuItem>
+              </Select>
+            )}
+          </Grid>
         </Grid>
       </Grid>
 
@@ -140,9 +157,9 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
           variant={variant}
           margin={margin}
           fullWidth
-          label={t("form.position")}
+          label={t('form.position')}
           name="position"
-          placeholder={t("form.position")}
+          placeholder={t('form.position')}
           value={position.value}
           onChange={handleChange}
           error={!!position.error}
@@ -151,7 +168,7 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
         />
       )}
 
-      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
           variant="contained"
           sx={{ mt: 3, ml: 1 }}
@@ -159,7 +176,7 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
           color="primary"
           onClick={!isError() ? handleNext : () => null}
         >
-          {t("button.continue")}
+          {t('button.continue')}
         </Button>
       </Box>
     </>
