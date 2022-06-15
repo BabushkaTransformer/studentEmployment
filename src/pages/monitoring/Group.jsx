@@ -1,18 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router';
+import { useDarkMode } from '../../hooks/useDarkMode';
 import ReactApexChart from 'react-apexcharts';
 
 import { Table } from '../../components/monitoring/table/Table';
-import { useDarkMode } from '../../hooks/useDarkMode';
-import { CreateStudentModal } from '../../components/monitoring/CreateStudentModal';
-import { Box, Tooltip } from '@mui/material';
-import { Group as GroupIcon, OtherHousesRounded, PlusOne, PriceCheck } from '@mui/icons-material';
-import { monitoringAPI } from '../../store/services/MonitoringService';
-import IconButton from '@mui/material/IconButton';
-import { PageLoader } from '../../components/ui/PageLoader';
 import { NotData } from '../NotData';
 import { StatusCard } from '../../components/monitoring/statusCard/StatusCard';
+import { PageLoader } from '../../components/ui/PageLoader';
+import { CreateStudentModal } from '../../components/monitoring/CreateStudentModal';
+import { Box, Tooltip, Typography } from '@mui/material';
+import {
+  CopyAll,
+  Group as GroupIcon,
+  OtherHousesRounded,
+  PlusOne,
+  PriceCheck
+} from '@mui/icons-material';
+import { monitoringAPI } from '../../store/services/MonitoringService';
+import IconButton from '@mui/material/IconButton';
 
 export const Group = () => {
   const { id } = useParams();
@@ -96,6 +103,11 @@ export const Group = () => {
     setOpen(prev => !prev);
   };
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`${window.location.origin}/graduateRegistration?id=${id}`);
+    toast.success('Скопировано!');
+  };
+
   React.useEffect(() => {
     if (data) {
       const allCount = data.length;
@@ -124,17 +136,12 @@ export const Group = () => {
   const statusCards = [
     {
       'icon': <GroupIcon fontSize="large"/>,
-      'count': data?.length,
+      'count': all,
       'title': 'Количество выпускников'
     },
     {
       'icon': <PriceCheck fontSize="large"/>,
-      'count': data?.length,
-      'title': 'Количество групп'
-    },
-    {
-      'icon': <PriceCheck fontSize="large"/>,
-      'count': data ? Math.floor(data.reduce((acc, el) => acc + +el.salary, 0) / data.length) : null,
+      'count': data ? Math.floor(data.reduce((acc, el) => acc + +el.salary, 0) / data.length) + 'c' : null,
       'title': 'Средняя зарплата'
     },
     {
@@ -146,26 +153,43 @@ export const Group = () => {
 
   return (
     <div>
-      <h2 className="page-header">{group?.title}</h2>
+     <Box className="flex-start" sx={{ alignItems: 'center', gap: 4, my: 4 }}>
+       <Typography variant="h4" fontWeight="500">{group?.title}</Typography>
+       <Box className="flex-start" gap={2}>
+         <Box sx={{
+           fontSize: '14px',
+           background: 'white',
+           borderRadius: '8px',
+           padding: '10px 20px',
+           boxShadow: 1
+         }}>
+           {`${window.location.origin}/graduateRegistration?id=${id}`}
+         </Box>
+         <Tooltip title="Скопировать текст">
+           <IconButton onClick={copyToClipboard}>
+             <CopyAll />
+           </IconButton>
+         </Tooltip>
+       </Box>
+     </Box>
       <div className="row">
         <div className="col-11">
-          <div className="row">
-            {
-              statusCards.map((item, index) => (
-                <div className="col-3" key={index}>
-                  <StatusCard
-                    icon={item.icon}
-                    count={item.count}
-                    title={item.title}
-                  />
-                </div>
-              ))
-            }
-          </div>
-
           {data?.length ? (
             <div className="row">
               <div className="col-8">
+                <div className="row">
+                  {
+                    statusCards.map((item, index) => (
+                      <div className="col-4" key={index}>
+                        <StatusCard
+                          icon={item.icon}
+                          count={item.count}
+                          title={item.title}
+                        />
+                      </div>
+                    ))
+                  }
+                </div>
                 <div className="card">
                   <div className="card__header">
                     <h3>Студенты группы</h3>

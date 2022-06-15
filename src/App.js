@@ -49,6 +49,7 @@ import { Groups } from './pages/monitoring/Groups';
 import { Group } from './pages/monitoring/Group';
 import { Graduate } from './pages/monitoring/Graduate';
 import { ResultPage } from './pages/ResultPage';
+import { GraduateRegistration } from './pages/GraduateRegistration';
 
 function App() {
   const dispatch = useDispatch();
@@ -73,6 +74,7 @@ function App() {
       <Toaster/>
       <Routes>
         <Route path='/login' element={<Authorization/>}/>
+        <Route path='/graduateRegistration' element={<GraduateRegistration/>}/>
         <Route element={<Layout/>}>
           <Route path='/' element={<HomePage/>}/>
           <Route path={VACANCY_ROUTE_PATH} element={<Vacancies/>}/>

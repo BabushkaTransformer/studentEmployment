@@ -55,14 +55,16 @@ export const Dashboard = () => {
             working: !student.unemployed ? bata[student.expirationDate].working + 1 : bata[student.expirationDate].working,
             all: bata[student.expirationDate].all + 1,
             unemployed: student.unemployed ? bata[student.expirationDate].unemployed + 1 : bata[student.expirationDate].unemployed,
-            abroad: student.abroad === 'yes' ? bata[student.expirationDate].abroad + 1 : bata[student.expirationDate].abroad
+            abroad: student.abroad === 'yes' ? bata[student.expirationDate].abroad + 1 : bata[student.expirationDate].abroad,
+            averageSalary: student.salary ? bata[student.expirationDate].averageSalary + Number(student.salary) / 2 : bata[student.expirationDate].averageSalary
           };
         } else {
           bata[student.expirationDate] = {
             working: !student.unemployed ? 1 : 0,
             all: 1,
             unemployed: student.unemployed ? 1 : 0,
-            abroad: student.abroad ? 1 : 0
+            abroad: student.abroad ? 1 : 0,
+            averageSalary: student.salary ? Number(student.salary) / 2 : 0
           };
         }
       });
@@ -70,7 +72,9 @@ export const Dashboard = () => {
       Object.keys(bata).forEach(el => {
         for (let key in bata[el]) {
           const index = sata.findIndex(el => el.value === key);
-          sata[index].data.push(bata[el][key]);
+          if (index !== -1) {
+            sata[index].data.push(bata[el][key]);
+          }
         }
       });
 
@@ -80,10 +84,16 @@ export const Dashboard = () => {
   }, [data]);
 
   const lineOptions = {
-    series: [{
-      name: 'Количество выпускников',
-      data: Object.keys(converted).map(el => converted[el].all)
-    }],
+    series: [
+      {
+        name: 'Коичество выпускников',
+        data: Object.keys(converted).map((el) => converted[el].all)
+      },
+      // {
+      //   name: 'Средняя зарплата',
+      //   data: Object.keys(converted).map((el) => converted[el].averageSalary/10000)
+      // }
+    ],
     options: {
       chart: {
         height: 350,

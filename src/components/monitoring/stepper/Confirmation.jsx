@@ -6,11 +6,11 @@ import { useTranslation } from '../../../hooks/useTranslation';
 import { Box, Button } from '@mui/material';
 import { monitoringAPI } from '../../../store/services/MonitoringService';
 
-export const Confirmation = ({ personalInfo, employmentInfo, onClose, group, resetState }) => {
+export const Confirmation = ({ personalInfo, employmentInfo, onClose, setIsFinish, group, resetState }) => {
   const { t } = useTranslation();
-
   const [personalValues, setPersonalValues] = React.useState([]);
   const [employmentValues, setEmploymentValues] = React.useState([]);
+
   const [createStudent] = monitoringAPI.useCreateStudentMutation();
 
   React.useEffect(() => {
@@ -41,7 +41,8 @@ export const Confirmation = ({ personalInfo, employmentInfo, onClose, group, res
       await createStudent(data);
       toast.success('Создано!');
       resetState();
-      onClose();
+      onClose && onClose();
+      setIsFinish && setIsFinish(true);
     } catch (error) {
       toast.error('Что то пошло не так');
     }
