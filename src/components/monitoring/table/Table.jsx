@@ -3,13 +3,10 @@ import React, { useState } from 'react';
 import './style.css';
 
 export const Table = props => {
-
   const initDataShow = props.limit && props.bodyData ? props.bodyData.slice(0, Number(props.limit)) : props.bodyData;
-
   const [dataShow, setDataShow] = useState(initDataShow);
 
   let pages = 1;
-
   let range = [];
 
   if (props.limit !== undefined) {
@@ -25,7 +22,6 @@ export const Table = props => {
     const end = start + Number(props.limit);
 
     setDataShow(props.bodyData.slice(start, end));
-
     setCurrPage(page);
   };
 

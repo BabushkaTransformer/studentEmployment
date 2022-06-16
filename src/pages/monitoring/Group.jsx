@@ -10,9 +10,10 @@ import { NotData } from '../NotData';
 import { StatusCard } from '../../components/monitoring/statusCard/StatusCard';
 import { PageLoader } from '../../components/ui/PageLoader';
 import { CreateStudentModal } from '../../components/monitoring/CreateStudentModal';
+import { getFullName } from '../../utils';
 import { Box, Tooltip, Typography } from '@mui/material';
 import {
-  CopyAll,
+  CopyAll, Delete,
   Group as GroupIcon,
   OtherHousesRounded,
   PlusOne,
@@ -21,6 +22,50 @@ import {
 import { monitoringAPI } from '../../store/services/MonitoringService';
 import IconButton from '@mui/material/IconButton';
 
+
+const workingType = {
+  'remote': 'Удаленно',
+  'office': 'Офис'
+};
+
+const barOptions = {
+  chart: {
+    type: 'bar',
+    height: 350
+  },
+  plotOptions: {
+    bar: {
+      borderRadius: 4,
+      horizontal: true
+    }
+  },
+  dataLabels: {
+    enabled: false
+  },
+  xaxis: {
+    categories: ['Общее количество', 'Работают', 'Не работают', 'За границей', 'По специальности', 'Не по специальности']
+  }
+};
+
+const pieOptions = {
+  chart: {
+    width: 380,
+    type: 'pie'
+  },
+  labels: ['Женщины', 'Мужчины'],
+  responsive: [{
+    breakpoint: 480,
+    options: {
+      chart: {
+        width: 200
+      },
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }]
+};
+
 export const Group = () => {
   const { id } = useParams();
   const { isDarkMode } = useDarkMode();
@@ -28,6 +73,8 @@ export const Group = () => {
 
   const { data, isLoading } = monitoringAPI.useGetStudentsQuery(id);
   const { data: group } = monitoringAPI.useGetGroupByIdQuery(id);
+
+  const [deleteGraduate, { isLoading: deleteLoading }] = monitoringAPI.useDeleteStudentMutation();
 
   const [open, setOpen] = React.useState(false);
   const [all, setAll] = React.useState(0);
@@ -39,73 +86,15 @@ export const Group = () => {
   const [maleCount, setMaleCount] = React.useState(0);
   const [femaleCount, setFemaleCount] = React.useState(0);
 
-  const renderCusomerHead = (item, index) => (
-    <th key={index}>{item}</th>
-  );
 
-  const renderCusomerBody = (item, index) => (
-    <tr key={index} onClick={() => navigate(`/graduate/${item.id}`)}>
-      <td>{item.firstName}</td>
-      <td>{item.salary}</td>
-      <td>{item.city}</td>
-      <td>{item.createdAt}</td>
-      <td>{item.type}</td>
-    </tr>
-  );
-
-  const chartOptions = {
-    series: [femaleCount, maleCount],
-    options: {
-      chart: {
-        width: 380,
-        type: 'pie'
-      },
-      labels: ['Женщины', 'Мужчины'],
-      responsive: [{
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200
-          },
-          legend: {
-            position: 'bottom'
-          }
-        }
-      }]
+  const handleDelete = async (event, id) => {
+    event.stopPropagation();
+    try {
+      await deleteGraduate(id).unwrap();
+      toast.success('Удалено!');
+    } catch (e) {
+      toast.error('Что то пошло не так...');
     }
-  };
-
-  const barData = {
-    series: [{
-      data: [all, working, notWorking, abroad, bySpeciality, notBySpeciality]
-    }],
-    options: {
-      chart: {
-        type: 'bar',
-        height: 350
-      },
-      plotOptions: {
-        bar: {
-          borderRadius: 4,
-          horizontal: true
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      xaxis: {
-        categories: ['Общее количество', 'Работают', 'Не работают', 'За границей', 'По специальности', 'Не по специальности']
-      }
-    }
-  };
-
-  const toggleModal = () => {
-    setOpen(prev => !prev);
-  };
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(`${window.location.origin}/graduateRegistration?id=${id}`);
-    toast.success('Скопировано!');
   };
 
   React.useEffect(() => {
@@ -127,11 +116,14 @@ export const Group = () => {
     }
   }, [data]);
 
-  if (isLoading) {
-    return (
-      <PageLoader/>
-    );
-  }
+  const toggleModal = () => {
+    setOpen(prev => !prev);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`${window.location.origin}/graduateRegistration?id=${id}`);
+    toast.success('Скопировано!');
+  };
 
   const statusCards = [
     {
@@ -151,27 +143,54 @@ export const Group = () => {
     }
   ];
 
+  const renderCusomerHead = (item, index) => (
+    <th key={index}>{item}</th>
+  );
+
+  const renderCusomerBody = (item, index) => (
+    <tr key={index} onClick={() => navigate(`/graduate/${item.id}`)}>
+      <td>{getFullName(item)}</td>
+      <td>{item.salary ? `${item.salary}c.` : '-'}</td>
+      <td>{item.city || '-'}</td>
+      <td>{item.createdAt || '-'}</td>
+      <td>{workingType[item.type] || '-'}</td>
+      <td>
+        <Tooltip title="Удалить из базы">
+          <IconButton onClick={(event) => handleDelete(event, item.id)}>
+            <Delete/>
+          </IconButton>
+        </Tooltip>
+      </td>
+    </tr>
+  );
+
+  if (isLoading) {
+    return (
+      <PageLoader/>
+    );
+  }
+
   return (
     <div>
-     <Box className="flex-start" sx={{ alignItems: 'center', gap: 4, my: 4 }}>
-       <Typography variant="h4" fontWeight="500">{group?.title}</Typography>
-       <Box className="flex-start" gap={2}>
-         <Box sx={{
-           fontSize: '14px',
-           background: 'white',
-           borderRadius: '8px',
-           padding: '10px 20px',
-           boxShadow: 1
-         }}>
-           {`${window.location.origin}/graduateRegistration?id=${id}`}
-         </Box>
-         <Tooltip title="Скопировать текст">
-           <IconButton onClick={copyToClipboard}>
-             <CopyAll />
-           </IconButton>
-         </Tooltip>
-       </Box>
-     </Box>
+      <Box className="flex-start" sx={{ alignItems: 'center', gap: 4, my: 4 }}>
+        <Typography variant="h4" fontWeight="500">{group?.title}</Typography>
+        <Box className="flex-start" gap={2}>
+          <Box sx={{
+            fontSize: '14px',
+            background: isDarkMode ? 'dark' : 'white',
+            borderRadius: '8px',
+            padding: '10px 20px',
+            boxShadow: 1
+          }}>
+            {`${window.location.origin}/graduateRegistration?id=${id}`}
+          </Box>
+          <Tooltip title="Скопировать текст">
+            <IconButton onClick={copyToClipboard}>
+              <CopyAll/>
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Box>
       <div className="row">
         <div className="col-11">
           {data?.length ? (
@@ -201,8 +220,8 @@ export const Group = () => {
                         'ФИО',
                         'Зарплата',
                         'Город',
-                        'Тип работы',
-                        'Дата создания'
+                        'Дата создания',
+                        'Тип работы'
                       ]}
                       renderHead={(item, index) => renderCusomerHead(item, index)}
                       bodyData={data || []}
@@ -217,16 +236,28 @@ export const Group = () => {
               <div className="col-4">
                 <div className="col-12">
                   <div className="card">
-                    <ReactApexChart options={barData.options} series={barData.series} type="bar"/>
+                    <ReactApexChart
+                      type="bar"
+                      options={{
+                        ...barOptions,
+                        theme: { mode: isDarkMode ? 'dark' : 'light'  }
+                      }}
+                      series={[{
+                        data: [all, working, notWorking, abroad, bySpeciality, notBySpeciality]
+                      }]}
+                    />
                   </div>
                 </div>
                 <div className="col-12">
                   <div className="card full-height">
                     <ReactApexChart
-                      options={chartOptions.options}
-                      series={chartOptions.series}
                       type="pie"
                       height="100%"
+                      options={{
+                        ...pieOptions,
+                        theme: { mode: isDarkMode ? 'dark' : 'light'  }
+                      }}
+                      series={[femaleCount, maleCount]}
                     />
                   </div>
                 </div>
@@ -248,10 +279,10 @@ export const Group = () => {
                 flexDirection: 'column',
                 gap: 1,
                 textAlign: 'center',
-                fontSize: '12px',
+                fontSize: '12px'
               }}>
                 <PlusOne/>
-                  Добавить <br/> выпускника
+                Добавить <br/> выпускника
               </IconButton>
             </Tooltip>
           </Box>

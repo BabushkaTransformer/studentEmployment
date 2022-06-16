@@ -6,7 +6,11 @@ import {
   query,
   collection,
   getDocs,
-  addDoc, where, orderBy, updateDoc
+  deleteDoc,
+  addDoc,
+  where,
+  orderBy,
+  updateDoc
 } from 'firebase/firestore';
 import 'moment/locale/ru';
 import moment from 'moment';
@@ -74,6 +78,17 @@ export const monitoringAPI = createApi({
         try {
           await updateDoc(doc(db, 'students', data.id), data);
           return 'Сохранено!';
+        } catch (error) {
+          return { error: error.code };
+        }
+      },
+      invalidatesTags: ['Students']
+    }),
+    deleteStudent: build.mutation({
+      queryFn: async (id) => {
+        try {
+          await deleteDoc(doc(db, 'students', id));
+          return 'Удалено!';
         } catch (error) {
           return { error: error.code };
         }
