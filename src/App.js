@@ -50,6 +50,7 @@ import { Group } from './pages/monitoring/Group';
 import { Graduate } from './pages/monitoring/Graduate';
 import { ResultPage } from './pages/ResultPage';
 import { GraduateRegistration } from './pages/GraduateRegistration';
+import { AllUsers } from './pages/AllUsers';
 
 function App() {
   const dispatch = useDispatch();
@@ -104,6 +105,7 @@ function App() {
           <Route path="/groups" element={<Groups/>}/>
           <Route path="/group/:id" element={<Group/>}/>
           <Route path="/graduate/:id" element={<Graduate/>}/>
+          <Route path="/users" element={<AllUsers/>}/>
         </Route>
       </Routes>
     </div>

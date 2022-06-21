@@ -16,7 +16,7 @@ import {
   RESUME_VALUES
 } from '../../utils/formValues';
 
-const labels = ['First Step', 'Second Step', 'Third Step', 'Confirm'];
+const labels = ['Личная информация', 'Образование', 'Навыки', 'Просмотр'];
 
 export const CreateResume = () => {
   const [formValues, setFormValues] = React.useState(RESUME_VALUES);
@@ -98,11 +98,7 @@ export const CreateResume = () => {
         <form>
           <Box sx={{ my: 5 }}>
             <Typography variant="h4" align="center">
-              Multi Step Form
-            </Typography>
-            <Typography variant="subtitle2" align="center" sx={{ mt: 2 }}>
-              React Material UI multi step form with basic form validation
-              logic.
+              Создание резюме
             </Typography>
           </Box>
           <Stepper activeStep={activeStep} sx={{ py: 3 }} alternativeLabel>

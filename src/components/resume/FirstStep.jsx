@@ -15,7 +15,7 @@ export const FirstStep = ({ formValues, handleChange, handleNext }) => {
 
   const isError = React.useCallback(
     () =>
-      Object.keys({ firstName, lastName, email, phone, city, date, sex }).some(
+      Object.keys({ firstName, lastName, email, phone, city, date }).some(
         (name) =>
           (formValues[name].required && !formValues[name].value) ||
           formValues[name].error

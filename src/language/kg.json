@@ -45,7 +45,9 @@
     "degree": "Академиялык даража",
     "faculty": "Факультет",
     "specialization": "Специализация",
-    "skill": "Навык"
+    "skill": "Навык",
+    "salary": "Айлык",
+    "speciality": "Специальность"
   },
   "notification": {
     "save": "Сакталды!",

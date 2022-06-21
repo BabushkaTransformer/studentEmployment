@@ -155,7 +155,7 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
             noWrap
             sx={{ flexGrow: 1, textDecoration: 'none' }}
           >
-            Dashboard
+            Главная
           </Typography>
         </Box>
 
@@ -172,17 +172,20 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
               width: '400px'
             }}
           />
-          <Button
-            id="basic-button"
-            variant="contained"
-            sx={{ background: 'white', color: 'black', ':hover': { background: '#e3f2fd' } }}
-            aria-controls={createOpen ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={createOpen ? 'true' : undefined}
-            onClick={handleOpenCreate}
-          >
-            Создать
-          </Button>
+
+          {user?.id && (
+            <Button
+              id="basic-button"
+              variant="contained"
+              sx={{ background: 'white', color: 'black', ':hover': { background: '#e3f2fd' } }}
+              aria-controls={createOpen ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={createOpen ? 'true' : undefined}
+              onClick={handleOpenCreate}
+            >
+              Создать
+            </Button>
+          )}
 
           <Menu
             id="basic-menu"
@@ -295,12 +298,22 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
                 Войти
               </MenuItem>
             )}
-            <MenuItem component={Link} to={ADMIN_ROUTE_PATH}>
-              <ListItemIcon>
-                <TransitEnterexit fontSize="small"/>
-              </ListItemIcon>
-              Админ
-            </MenuItem>
+            {(user?.role === 'instructor' || user?.role === 'admin') && (
+              <MenuItem component={Link} to={ADMIN_ROUTE_PATH}>
+                <ListItemIcon>
+                  <TransitEnterexit fontSize="small"/>
+                </ListItemIcon>
+                Статистика
+              </MenuItem>
+            )}
+            {user?.role === 'admin' && (
+              <MenuItem component={Link} to={'/users'}>
+                <ListItemIcon>
+                  <TransitEnterexit fontSize="small"/>
+                </ListItemIcon>
+                Роли
+              </MenuItem>
+            )}
           </Menu>
         </Box>
       </Toolbar>

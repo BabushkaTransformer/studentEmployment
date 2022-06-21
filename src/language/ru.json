@@ -45,7 +45,9 @@
     "degree": "Академическая степень",
     "faculty": "Факультет",
     "specialization": "Специализация",
-    "skill": "Навык"
+    "skill": "Навык",
+    "salary": "Зарплата",
+    "speciality": "Специальность"
   },
   "notification": {
     "save": "Сохранено!",

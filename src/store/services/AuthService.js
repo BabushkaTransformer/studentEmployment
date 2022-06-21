@@ -5,13 +5,14 @@ import {
   signOut,
   getAuth
 } from 'firebase/auth';
-import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, updateDoc, query, collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import moment from 'moment';
 
 export const authAPI = createApi({
   reducerPath: 'authAPI',
   baseQuery: fetchBaseQuery({}),
-  tagTypes: ['Profile'],
+  tagTypes: ['Profile', 'Users'],
   endpoints: (build) => ({
     signIn: build.mutation({
       queryFn: async ({ email, password }) => {
@@ -37,6 +38,7 @@ export const authAPI = createApi({
             company: company,
             phone: "",
             telegram: "",
+            role: 'user',
             id: response.user.uid,
             created: response.user.metadata.creationTime,
             updated: response.user.metadata.creationTime
@@ -74,6 +76,36 @@ export const authAPI = createApi({
        }
       },
       invalidatesTags: ['Profile']
+    }),
+    getUsers: build.query({
+      queryFn: async () => {
+        const users = [];
+
+        const ref = query( collection(db, 'users'));
+
+        try {
+          const querySnapshot = await getDocs(ref);
+          querySnapshot.forEach((doc) => {
+            const createdAt = moment(doc.data().created.seconds * 1000).format('DD MMMM YYYY');
+            users.push({ id: doc.id, ...doc.data(), createdAt });
+          });
+          return { data: users };
+        } catch (error) {
+          return { error: error.code };
+        }
+      },
+      providesTags: ['Users']
+    }),
+    changeUserRole: build.mutation({
+      queryFn: async ({ id, data }) => {
+        try {
+          await updateDoc(doc(db, 'users', id), data);
+          return "Сохранено!"
+        } catch (error) {
+          return { error: error.code };
+        }
+      },
+      invalidatesTags: ['Users']
     }),
   })
 });

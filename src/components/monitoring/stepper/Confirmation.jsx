@@ -6,6 +6,16 @@ import { useTranslation } from '../../../hooks/useTranslation';
 import { Box, Button } from '@mui/material';
 import { monitoringAPI } from '../../../store/services/MonitoringService';
 
+const convertText = {
+  'no': 'Нет',
+  'yes': 'Да'
+};
+
+const convertType = {
+  'office': 'Офис',
+  'remote': 'Удаленно'
+}
+
 export const Confirmation = ({ personalInfo, employmentInfo, onClose, setIsFinish, group, resetState }) => {
   const { t } = useTranslation();
   const [personalValues, setPersonalValues] = React.useState([]);
@@ -49,7 +59,7 @@ export const Confirmation = ({ personalInfo, employmentInfo, onClose, setIsFinis
   };
 
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
       <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between', borderBottom: '1px solid silver' }}>
         <Box>Имя</Box>
         <Box>{personalValues.firstName}</Box>
@@ -68,19 +78,19 @@ export const Confirmation = ({ personalInfo, employmentInfo, onClose, setIsFinis
       </Box>
       <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between', borderBottom: '1px solid silver' }}>
         <Box>Зарплата</Box>
-        <Box>{employmentValues.salary}</Box>
+        <Box>{employmentValues.salary}c.</Box>
       </Box>
       <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between', borderBottom: '1px solid silver' }}>
         <Box>За границей</Box>
-        <Box>{employmentValues.abroad}</Box>
+        <Box>{convertText[employmentValues.abroad]}</Box>
       </Box>
       <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between', borderBottom: '1px solid silver' }}>
         <Box>Тип работы</Box>
-        <Box>{employmentValues.type}</Box>
+        <Box>{convertType[employmentValues.type]}</Box>
       </Box>
       <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between', borderBottom: '1px solid silver' }}>
         <Box>По спецу</Box>
-        <Box>{employmentValues.bySpeciality}</Box>
+        <Box>{convertText[employmentValues.bySpeciality]}</Box>
       </Box>
 
       <Button
