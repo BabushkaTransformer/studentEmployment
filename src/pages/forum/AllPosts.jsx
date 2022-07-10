@@ -3,9 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { PostItem } from '../../components/forum/PostItem';
 import { PageLoader } from '../../components/ui/PageLoader';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { forumAPI } from '../../store/services/ForumService';
-import { POSTS_ROUTE_PATH } from '../../constants';
+import { EVENT_ROUTE_PATH } from '../../constants';
 
 export const AllPosts = ({ isTab }) => {
   const { data, isLoading } = forumAPI.useGetPostsQuery();
@@ -13,20 +13,26 @@ export const AllPosts = ({ isTab }) => {
   if (isLoading) {
     return (
       <PageLoader/>
-    )
+    );
   }
 
   return (
     <div>
-      {data?.slice(0, isTab ? 3 : data?.length).map(post => (
-        <PostItem key={post.id} {...post}/>
-      ))}
+      {data?.length ? (
+        data?.slice(0, isTab ? 3 : data?.length).map(event => (
+          <PostItem key={event.id} {...event} />
+        ))
+      ) : (
+        <Typography>
+          Пока что нет постов
+        </Typography>
+      )}
 
-      {isTab && (
+      {(isTab && !!data?.length) && (
         <Button
           variant="contained"
           component={Link}
-          to={POSTS_ROUTE_PATH}
+          to={EVENT_ROUTE_PATH}
         >
           Посмотреть все
         </Button>

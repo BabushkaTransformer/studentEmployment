@@ -18,9 +18,15 @@ export const authAPI = createApi({
       queryFn: async ({ email, password }) => {
         try {
           const response = await signInWithEmailAndPassword(getAuth(), email, password);
-          return { data: response.user.uid }
+          const user = await getDoc(doc(db, 'users', response.user.uid));
+          return {
+            data: {
+              uid: response.user.uid,
+              user: { id: user.id, ...user.data() }
+            }
+          };
         } catch (error) {
-          return { error: error.code }
+          return { error: error.code };
         }
       }
     }),
@@ -29,23 +35,30 @@ export const authAPI = createApi({
         const { firstName, lastName, email, password, company } = user;
         try {
           const response = await createUserWithEmailAndPassword(getAuth(), email, password);
-          await setDoc(doc(db, 'users', response.user.uid), {
+          const userData = {
             firstName: firstName,
             lastName: lastName,
-            patronymic: "",
-            avatar: "",
+            patronymic: '',
+            avatar: '',
             email: response.user.email,
             company: company,
-            phone: "",
-            telegram: "",
+            phone: '',
+            telegram: '',
             role: 'user',
             id: response.user.uid,
             created: response.user.metadata.creationTime,
             updated: response.user.metadata.creationTime
-          });
-          return { data: response.user.uid }
+          };
+          await setDoc(doc(db, 'users', response.user.uid), userData);
+
+          return {
+            data: {
+              uid: response.user.uid,
+              user: userData
+            }
+          };
         } catch (error) {
-          return { error: error.code }
+          return { error: error.code };
         }
       }
     }),
@@ -59,34 +72,33 @@ export const authAPI = createApi({
         const docRef = doc(db, 'users', id);
         try {
           const response = await getDoc(docRef);
-          return { data: {id: response.id, ...response.data()} }
+          return { data: { id: response.id, ...response.data() } };
         } catch (error) {
-          return { error: error.code }
+          return { error: error.code };
         }
       },
       providesTags: ['Profile']
     }),
     updateUserProfile: build.mutation({
       queryFn: async (user) => {
-       try {
-         await updateDoc(doc(db, 'users', user.id), user);
-         return "Сохранено!"
-       } catch (error) {
-         return { error: error.code };
-       }
+        try {
+          await updateDoc(doc(db, 'users', user.id), user);
+          return 'Сохранено!';
+        } catch (error) {
+          return { error: error.code };
+        }
       },
       invalidatesTags: ['Profile']
     }),
     getUsers: build.query({
       queryFn: async () => {
         const users = [];
-
-        const ref = query( collection(db, 'users'));
+        const ref = query(collection(db, 'users'));
 
         try {
           const querySnapshot = await getDocs(ref);
           querySnapshot.forEach((doc) => {
-            const createdAt = moment(doc.data().created.seconds * 1000).format('DD MMMM YYYY');
+            const createdAt = moment(doc.data().created).format('DD MMMM YYYY');
             users.push({ id: doc.id, ...doc.data(), createdAt });
           });
           return { data: users };
@@ -100,12 +112,12 @@ export const authAPI = createApi({
       queryFn: async ({ id, data }) => {
         try {
           await updateDoc(doc(db, 'users', id), data);
-          return "Сохранено!"
+          return 'Сохранено!';
         } catch (error) {
           return { error: error.code };
         }
       },
       invalidatesTags: ['Users']
-    }),
+    })
   })
 });

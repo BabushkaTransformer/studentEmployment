@@ -2,11 +2,12 @@ import React from 'react';
 
 import { GroupCard } from '../../components/monitoring/GroupCard';
 import { CreateGroupModal } from '../../components/monitoring/CreateGroupModal';
+import { PageLoader } from '../../components/ui/PageLoader';
+import { NotData } from '../NotData';
 import { Box, Button, Typography } from '@mui/material';
 import { monitoringAPI } from '../../store/services/MonitoringService';
-import { PageLoader } from '../../components/ui/PageLoader';
 
-const groups = ['2022', '2021', '2020', '2019', '2018'];
+const groups = ['2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018'];
 
 export const Groups = () => {
   const [open, setOpen] = React.useState(false);
@@ -30,6 +31,8 @@ export const Groups = () => {
         </Button>
       </div>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        {!data?.length && <NotData/>}
+
         {groups.map(el => (
           data.filter(group => group.expirationDate === el).length ? (
             <Box>
@@ -47,6 +50,7 @@ export const Groups = () => {
       </Box>
       <CreateGroupModal
         open={open}
+        groups={groups}
         onClose={toggleModal}
       />
     </div>

@@ -18,7 +18,7 @@ export const EventCard = (data) => {
   };
 
   return (
-    <Card>
+    <Card sx={{ width: '100%' }}>
       <CardContent>
         <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
           <Avatar src={author.avatar}/>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from '../../hooks/useTranslation';
 import { useNavigate } from 'react-router';
 import { useDarkMode } from '../../hooks/useDarkMode';
@@ -42,6 +42,7 @@ import {
   Work
 } from '@mui/icons-material';
 import { authAPI } from '../../store/services/AuthService';
+import { setUid, setUser } from '../../store/slices/AuthSlice';
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth'
@@ -62,10 +63,11 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export const Header = ({ open, toggleDrawer, drawerWidth }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { language, setLanguage, t } = useTranslation();
-  const { isDarkMode } = useDarkMode();
   const { user } = useSelector(state => state.auth);
+  const { isDarkMode } = useDarkMode();
+  const { language, setLanguage, t } = useTranslation();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [createEl, setCreateEl] = React.useState(null);
@@ -125,6 +127,12 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
       });
       setSearchValue('');
     }
+  };
+
+  const handleLogout = async () => {
+    await logOut();
+    dispatch(setUser(null));
+    dispatch(setUid(null));
   };
 
   return (
@@ -220,9 +228,9 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
               onClick={handleClick}
               size="small"
               sx={{ ml: 2 }}
-              aria-controls={menuOpen ? 'account-menu' : undefined}
+              aria-controls={menuOpen && 'account-menu'}
               aria-haspopup="true"
-              aria-expanded={menuOpen ? 'true' : undefined}
+              aria-expanded={menuOpen && 'true'}
             >
               <Avatar src={user?.avatar || ''} sx={{ width: 32, height: 32 }}/>
             </IconButton>
@@ -284,7 +292,7 @@ export const Header = ({ open, toggleDrawer, drawerWidth }) => {
               </FormControl>
             </MenuItem>
             {user?.id ? (
-              <MenuItem onClick={logOut} sx={{ py: '10px' }}>
+              <MenuItem onClick={handleLogout} sx={{ py: '10px' }}>
                 <ListItemIcon>
                   <Logout fontSize="small"/>
                 </ListItemIcon>

@@ -55,12 +55,14 @@ export const AdminLayout = () => {
                 : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
-            overflow: 'auto'
+            overflow: 'auto',
+            display: 'flex',
+            flexDirection: 'column'
           }}
         >
           <Toolbar/>
           <Container
-            maxWidth="100%" sx={{ mt: 4, mb: 4 }}
+            maxWidth="100%" sx={{ mt: 4, mb: 4, flexGrow: 1 }}
             className={isDarkMode ? 'theme-mode-dark' : 'theme-mode-light'}
           >
             <Outlet/>

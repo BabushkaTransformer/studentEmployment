@@ -56,11 +56,13 @@ export const Layout = () => {
                 : theme.palette.grey[900],
             flexGrow: 1,
             overflow: 'auto',
-            minHeight: '100vh'
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column'
           }}
         >
           <Toolbar/>
-          <Container maxWidth="md" sx={{ mt: 4, mb: 4}}>
+          <Container maxWidth="md" sx={{ mt: 4, mb: 4, flexGrow: 1 }}>
             <Outlet/>
           </Container>
         </Box>

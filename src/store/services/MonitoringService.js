@@ -25,7 +25,6 @@ export const monitoringAPI = createApi({
     getStudents: build.query({
       queryFn: async (id) => {
         const students = [];
-
         let ref = null;
         if (id) {
           ref = query(

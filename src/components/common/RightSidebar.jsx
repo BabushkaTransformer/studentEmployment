@@ -59,9 +59,13 @@ export const RightSidebar = () => {
           </div>
         )}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {events?.slice(0, 5).map(event => (
-            <EventCard key={event.id} {...event}/>
-          ))}
+          {events?.length ? (
+            events?.slice(0, 5).map(event => (
+              <EventCard key={event.id} {...event}/>
+            ))
+          ) : (
+            <Typography>Нет постов</Typography>
+          )}
         </Box>
       </Box>
 
@@ -86,9 +90,13 @@ export const RightSidebar = () => {
           </div>
         )}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {comments?.slice(0, 10).map(comment => (
-            <CommentItem key={comment.id} {...comment}/>
-          ))}
+          {comments?.length ? (
+            comments?.slice(0, 10).map(comment => (
+              <CommentItem key={comment.id} {...comment}/>
+            ))
+          ) : (
+            <Typography>Нет комментариев</Typography>
+          )}
         </Box>
       </Box>
     </Drawer>

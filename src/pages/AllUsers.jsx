@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { authAPI } from '../store/services/AuthService';
 import { Delete, Edit } from '@mui/icons-material';
+import { useSelector } from 'react-redux';
 
 const customerTableHead = [
   'ФИО',
@@ -36,6 +37,7 @@ const rolesText = {
 
 export const AllUsers = () => {
   const { isDarkMode } = useDarkMode();
+  const { uid } = useSelector(state => state.auth);
 
   const [open, setOpen] = React.useState(false);
   const [role, setRole] = React.useState('user');
@@ -87,13 +89,15 @@ export const AllUsers = () => {
       <td>{item.city || '-'}</td>
       <td>{item.createdAt || '-'}</td>
       <td>{rolesText[item.role] || 'Пользователь'}</td>
-      <td>
-        <Tooltip title="Поменять роль" onClick={(event) => handleOpen(event, item)}>
-          <Edit fontSize="small">
-            <Delete/>
-          </Edit>
-        </Tooltip>
-      </td>
+      {uid !==  item.id && (
+        <td>
+          <Tooltip title="Поменять роль" onClick={(event) => handleOpen(event, item)}>
+            <Edit fontSize="small">
+              <Delete/>
+            </Edit>
+          </Tooltip>
+        </td>
+      )}
     </tr>
   );
 
@@ -143,10 +147,10 @@ export const AllUsers = () => {
           </Typography>
 
           <FormControl fullWidth>
-            <InputLabel id="demo-select-small">Age</InputLabel>
+            <InputLabel id="demo-select-small">Роль</InputLabel>
             <Select
               value={role}
-              label="Age"
+              label="Роль"
               onChange={handleChange}
             >
               <MenuItem value="admin">Администратор</MenuItem>

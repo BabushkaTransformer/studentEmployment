@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { VacancyItem } from '../../components/vacancy/VacancyItem';
 import { PageLoader } from '../../components/ui/PageLoader';
 import { vacancyAPI } from '../../store/services/VacancyService';
-import { Button } from '@mui/material';
-import { VACANCY_ROUTE_PATH } from '../../constants';
+import { Button, Typography } from '@mui/material';
+import { EVENT_ROUTE_PATH } from '../../constants';
 
 export const Vacancies = ({ isTab }) => {
   const { data, isLoading } = vacancyAPI.useGetVacanciesQuery();
@@ -13,20 +13,26 @@ export const Vacancies = ({ isTab }) => {
   if (isLoading) {
     return (
       <PageLoader/>
-    )
+    );
   }
 
   return (
     <div>
-      {data?.slice(0, isTab ? 4 : data?.length).map(vacancy => (
-        <VacancyItem key={vacancy.id} {...vacancy}/>
-      ))}
+      {data?.length ? (
+        data?.slice(0, isTab ? 3 : data?.length).map(event => (
+          <VacancyItem key={event.id} {...event} />
+        ))
+      ) : (
+        <Typography>
+          Пока что нет вакансий
+        </Typography>
+      )}
 
-      {isTab && (
+      {(isTab && !!data?.length) && (
         <Button
           variant="contained"
           component={Link}
-          to={VACANCY_ROUTE_PATH}
+          to={EVENT_ROUTE_PATH}
         >
           Посмотреть все
         </Button>

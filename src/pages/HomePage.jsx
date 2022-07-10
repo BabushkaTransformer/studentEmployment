@@ -20,7 +20,7 @@ export const HomePage = () => {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', height: '95%', display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Мероприятия" {...a11yProps(0)} />
@@ -55,6 +55,8 @@ const TabPanel = (props) => {
 
   return (
     <div
+      component="div"
+      style={{ flexGrow: 1 }}
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -62,8 +64,8 @@ const TabPanel = (props) => {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+        <Box sx={{ p: 3, height: '100%' }}>
+          {children}
         </Box>
       )}
     </div>

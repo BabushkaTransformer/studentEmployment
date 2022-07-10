@@ -2,7 +2,7 @@ import React from 'react';
 import { toast } from 'react-hot-toast';
 import { serverTimestamp } from 'firebase/firestore';
 
-import { Box, Button, MenuItem, Modal, Select, TextField } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, TextField } from '@mui/material';
 import { monitoringAPI } from '../../store/services/MonitoringService';
 
 const style = {
@@ -23,7 +23,7 @@ const style = {
   pb: 3
 };
 
-export const CreateGroupModal = ({ open, onClose }) => {
+export const CreateGroupModal = ({ open, onClose, groups }) => {
   const [title, setTitle] = React.useState('');
   const [expirationDate, setExpirationDate] = React.useState('2022');
   const [createGroup, { isLoading }] = monitoringAPI.useCreateGroupMutation();
@@ -54,17 +54,25 @@ export const CreateGroupModal = ({ open, onClose }) => {
           placeholder="Название группы"
           onChange={(e) => setTitle(e.target.value)}
         />
-        <Select
-          name="abroad"
-          value={expirationDate}
-          fullWidth
-          onChange={e => setExpirationDate(e.target.value)}
-        >
-          <MenuItem value="2019">2019</MenuItem>
-          <MenuItem value="2020">2020</MenuItem>
-          <MenuItem value="2021">2021</MenuItem>
-          <MenuItem value="2022">2022</MenuItem>
-        </Select>
+        <FormControl fullWidth>
+          <InputLabel>Дата выпуска</InputLabel>
+          <Select
+            name="abroad"
+            value={expirationDate}
+            fullWidth
+            label="Дата выпуска"
+            onChange={e => setExpirationDate(e.target.value)}
+          >
+            {groups?.map(el => (
+              <MenuItem
+                key={el}
+                value={el}
+              >
+                {el}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <Button variant="contained" type="submit">
           Создать
         </Button>

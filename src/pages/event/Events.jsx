@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { PageLoader } from '../../components/ui/PageLoader';
 import { EventCard } from '../../components/event/EventCard';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { eventAPI } from '../../store/services/EventService';
 import { EVENT_ROUTE_PATH } from '../../constants';
 
@@ -23,11 +23,18 @@ export const Events = ({ isTab }) => {
       alignItems: 'start',
       gap: 2
     }}>
-      {data?.slice(0, isTab ? 3 : data?.length).map(event => (
-        <EventCard key={event.id} {...event} />
-      ))}
+      {data?.length ? (
+        data?.slice(0, isTab ? 3 : data?.length).map(event => (
+          <EventCard key={event.id} {...event} />
+        ))
+      ) : (
+        <Typography>
+          Пока что нет мероприятий
+        </Typography>
+      )}
 
-      {isTab && (
+
+      {(isTab && !!data?.length) && (
         <Button
           variant="contained"
           component={Link}

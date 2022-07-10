@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import './style.css';
+import { Typography } from '@mui/material';
 
 export const Table = props => {
   const initDataShow = props.limit && props.bodyData ? props.bodyData.slice(0, Number(props.limit)) : props.bodyData;

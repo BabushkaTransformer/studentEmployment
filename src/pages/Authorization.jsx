@@ -11,17 +11,17 @@ import {
   Grid,
   Typography,
   TextField,
-  CssBaseline
+  CssBaseline, CircularProgress
 } from '@mui/material';
 import { authAPI } from '../store/services/AuthService';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { setUid } from '../store/slices/AuthSlice';
+import { setUid, setUser } from '../store/slices/AuthSlice';
 import { toast } from 'react-hot-toast';
 
 const authErrorTexts = {
-  "auth/invalid-email": "Неккоретный email",
-  "auth/user-not-found": "Пользователь не найден",
+  'auth/invalid-email': 'Неккоретный email',
+  'auth/user-not-found': 'Пользователь не найден'
 };
 
 const formData = [
@@ -29,7 +29,7 @@ const formData = [
     type: 'text',
     name: 'firstName',
     label: 'Ваше имя',
-    required: true,
+    required: true
   },
   {
     type: 'text',
@@ -68,18 +68,19 @@ export const Authorization = () => {
   const [error, setError] = React.useState('');
   const [isSignIn, setIsSignIn] = React.useState(true);
 
-  const [signIn] = authAPI.useSignInMutation();
-  const [signUp] = authAPI.useSignUpMutation();
+  const [signIn, { isLoading: signInLoading }] = authAPI.useSignInMutation();
+  const [signUp, { isLoading: signUpLoading }] = authAPI.useSignUpMutation();
 
   const handleSignIn = async (event) => {
     event.preventDefault();
     setError('');
     const data = new FormData(event.currentTarget);
-    const user = Object.fromEntries([...data.entries()]);
+    const userData = Object.fromEntries([...data.entries()]);
     try {
-      const response = await signIn(user).unwrap();
-      dispatch(setUid(response));
-      toast.success("Успех!");
+      const { uid, user } = await signIn(userData).unwrap();
+      dispatch(setUid(uid));
+      dispatch(setUser(user));
+      toast.success('Успех!');
       navigate('/profile');
     } catch (error) {
       setError(authErrorTexts[error]);
@@ -90,10 +91,12 @@ export const Authorization = () => {
     event.preventDefault();
     setError('');
     const data = new FormData(event.currentTarget);
-    const user = Object.fromEntries([...data.entries()]);
+    const userData = Object.fromEntries([...data.entries()]);
     try {
-      const response = await signUp(user).unwrap();
-      dispatch(setUid(response));
+      const { uid, user } = await signUp(userData).unwrap();
+      dispatch(setUid(uid));
+      dispatch(setUser(user));
+      toast.success('Успех!');
       navigate('/profile');
     } catch (e) {
       setError(authErrorTexts[e.code]);
@@ -102,7 +105,7 @@ export const Authorization = () => {
 
   const toggleIsSignIn = () => {
     setIsSignIn(prev => !prev);
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -136,7 +139,7 @@ export const Authorization = () => {
               <LockOutlinedIcon/>
             </Avatar>
             <Typography component="h1" variant="h5">
-              Войти
+              {!isSignIn ? 'Зарегистрироваться' : 'Войти'}
             </Typography>
             <Box
               component="form"
@@ -166,8 +169,14 @@ export const Authorization = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={signUpLoading || signInLoading}
               >
-                Войти
+                {(signUpLoading || signInLoading)
+                  ? <CircularProgress size={22} color="inherit"/>
+                  : !isSignIn
+                    ? 'Зарегистрироваться'
+                    : 'Войти'
+                }
               </Button>
               <Grid container>
                 <Grid item xs>
@@ -177,7 +186,7 @@ export const Authorization = () => {
                 </Grid>
                 <Grid item>
                   <Link onClick={toggleIsSignIn} variant="body2">
-                    {isSignIn ? "Нет аккаунта? Создать аккаунт" : "Есть аккунт? Войти"}
+                    {isSignIn ? 'Нет аккаунта? Создать аккаунт' : 'Есть аккунт? Войти'}
                   </Link>
                 </Grid>
               </Grid>
